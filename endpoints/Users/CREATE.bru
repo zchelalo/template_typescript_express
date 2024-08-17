@@ -1,0 +1,23 @@
+meta {
+  name: CREATE
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{http}}://{{host}}/api/users
+  body: json
+  auth: none
+}
+
+headers {
+  Accept-Language: es
+}
+
+body:json {
+  {
+    "name": "Test",
+    "email": "testemail.com",
+    "password": "12345678"
+  }
+}
