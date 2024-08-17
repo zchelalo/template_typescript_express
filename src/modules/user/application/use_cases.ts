@@ -10,21 +10,18 @@ export class UserUseCase {
     this.userRepository = userRepository
   }
 
-  public async getUserById(id: string): Promise<UserDTO | null> {
+  public async getUserById(id: string): Promise<UserDTO> {
     const userObtained = await this.userRepository.getUserById(id)
-    if (!userObtained) return null
     return new UserDTO(userObtained)
   }
 
-  public async getUserByEmail(email: string): Promise<UserDTO | null> {
+  public async getUserByEmail(email: string): Promise<UserDTO> {
     const userObtained = await this.userRepository.getUserByEmail(email)
-    if (!userObtained) return null
     return new UserDTO(userObtained)
   }
 
-  public async getUsers(offset: number, limit: number): Promise<UserDTO[] | null> {
+  public async getUsers(offset: number, limit: number): Promise<UserDTO[]> {
     const usersObtained = await this.userRepository.getUsers(offset, limit)
-    if (!usersObtained) return null
     return usersObtained.map(user => new UserDTO(user))
   }
 
