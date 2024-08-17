@@ -3,14 +3,12 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { responseMiddleware } from './middlewares/response'
+import { logRequestMiddleware } from './middlewares/log_request'
+import { logErrors, unknownErrorHandler, customErrorHandler } from './middlewares/error'
 
 import { router as userRouter } from './app/user/infrastructure/router'
 
 const app = express()
-
-app.use(express.json())
-app.use(cookieParser())
-app.use(responseMiddleware)
 
 const whitelist = ['http://localhost:5173']
 app.use(cors({
@@ -24,6 +22,15 @@ app.use(cors({
   credentials: true
 }))
 
+app.use(express.json())
+app.use(cookieParser())
+app.use(logRequestMiddleware)
+app.use(responseMiddleware)
+
 app.use('/api', userRouter)
+
+app.use(logErrors)
+app.use(customErrorHandler)
+app.use(unknownErrorHandler)
 
 export { app }
