@@ -6,7 +6,7 @@ import { responseMiddleware } from './middlewares/response'
 import { logRequestMiddleware } from './middlewares/log_request'
 import { logErrors, unknownErrorHandler, customErrorHandler } from './middlewares/error'
 
-import { router as userRouter } from './app/user/infrastructure/router'
+import { router as userRouter } from './modules/user/infrastructure/router'
 
 const app = express()
 
