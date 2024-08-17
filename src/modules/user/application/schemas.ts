@@ -5,3 +5,7 @@ export const createUserSchema = z.object({
   email: z.string().email({ message: 'Invalid email' }),
   password: z.string().min(8)
 })
+
+export const getUserSchema = z.object({
+  id: z.string().uuid()
+})
