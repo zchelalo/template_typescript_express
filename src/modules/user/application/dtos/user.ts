@@ -1,4 +1,4 @@
-import { UserValue } from '../domain/value'
+import { UserValue } from '../../domain/value'
 
 export class UserDTO {
   id: string;

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { UserUseCase } from '../application/use_cases'
+import { UserUseCase } from '../application/use_cases/user'
 import { Meta } from 'src/helpers/meta'
 
 export class UserController {

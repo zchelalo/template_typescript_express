@@ -1,7 +1,7 @@
-import { UserEntity } from '../domain/entity'
-import { UserRepository } from '../domain/repository'
-import { UserValue } from '../domain/value'
-import { UserDTO } from './dto'
+import { UserEntity } from '../../domain/entity'
+import { UserRepository } from '../../domain/repository'
+import { UserValue } from '../../domain/value'
+import { UserDTO } from '../dtos/user'
 
 export class UserUseCase {
   private readonly userRepository: UserRepository
