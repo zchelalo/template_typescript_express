@@ -3,6 +3,8 @@ import { UserRepository } from '../../domain/repository'
 import { UserValue } from '../../domain/value'
 import { UserDTO } from '../dtos/user'
 
+import bcrypt from 'bcrypt'
+
 export class UserUseCase {
   private readonly userRepository: UserRepository
 
@@ -30,6 +32,8 @@ export class UserUseCase {
   }
 
   public async createUser(user: UserEntity): Promise<UserDTO> {
+    const password = await bcrypt.hash(user.password, 10)
+    user.password = password
     const userValue = new UserValue(user)
     const userCreated = await this.userRepository.createUser(userValue)
     return new UserDTO(userCreated)
