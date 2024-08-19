@@ -3,3 +3,4 @@ DB
 .env
 dist
 docs
+logs

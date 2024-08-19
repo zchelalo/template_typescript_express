@@ -1,5 +1,6 @@
 import { UserEntity } from '../../domain/entity'
 import { UserRepository } from '../../domain/repository'
+import { NotFoundError } from 'src/helpers/errors/custom_error'
 
 const users: UserEntity[] = [
   {
@@ -23,18 +24,27 @@ const users: UserEntity[] = [
 ]
 
 export class MemoryRepository implements UserRepository {
-  async getUserById(id: string): Promise<UserEntity | null> {
+  async getUserById(id: string): Promise<UserEntity> {
     const userObtained = users.find(user => user.id === id)
-    return userObtained || null
+    if (!userObtained) {
+      throw new NotFoundError(`user with id ${id}`)
+    }
+    return userObtained
   }
 
-  async getUserByEmail(email: string): Promise<UserEntity | null> {
+  async getUserByEmail(email: string): Promise<UserEntity> {
     const userObtained = users.find(user => user.email === email)
-    return userObtained || null
+    if (!userObtained) {
+      throw new NotFoundError(`user with email ${email}`)
+    }
+    return userObtained
   }
 
-  async getUsers(offset: number, limit: number): Promise<UserEntity[] | null> {
+  async getUsers(offset: number, limit: number): Promise<UserEntity[]> {
     const usersObtained = users.slice(offset, offset + limit)
+    if (usersObtained.length === 0) {
+      throw new NotFoundError('users')
+    }
     return usersObtained
   }
 
