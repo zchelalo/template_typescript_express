@@ -1,17 +1,16 @@
 import { Router } from 'express'
 import { PostgresRepository } from './repositories/postgres'
+import { MemoryRepository } from './repositories/memory'
 import { UserUseCase } from '../application/use_cases/user'
 import { UserController } from './controller'
 import { paginationMiddleware } from 'src/middlewares/pagination'
 import { validateData, Type } from 'src/middlewares/validator'
 import { createUserSchema, getUserSchema } from '../application/schemas/user'
-// import { MemoryRepository } from './repositories/memory'
 
 const router = Router()
 
-// const memoryRepository = new MemoryRepository()
-const postgresRepository = new PostgresRepository()
-const useCase = new UserUseCase(postgresRepository)
+const repository = process.env.NODE_ENV === 'test' ? new MemoryRepository() : new PostgresRepository()
+const useCase = new UserUseCase(repository)
 const userController = new UserController(useCase)
 
 /**
@@ -21,9 +20,80 @@ const userController = new UserController(useCase)
  *   description: Users endpoints
  */
 
+/** 
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: List of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseUsersArray'
+ */
+router.get('/users', paginationMiddleware, userController.getUsers)
+
+/** 
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Get a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - $ref: '#/components/parameters/UserId'
+ *     responses:
+ *       200:
+ *         description: An user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseUserObject'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseNotFound'
+ */
+router.get('/users/:id', validateData(getUserSchema, Type.PARAMS), userController.getUserById)
+
+/** 
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Create a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RequestUserObject'
+ *     responses:
+ *       201:
+ *         description: The user was created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseUserObject'
+ */
+router.post('/users', validateData(createUserSchema, Type.BODY), userController.createUser)
+
+export { router }
+
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: JWT authentication
+ * 
  *   parameters:
  *     UserId:
  *       in: path
@@ -57,7 +127,7 @@ const userController = new UserController(useCase)
  *         - message
  *       example:
  *         status: 200
- *         message: Success
+ *         message: sucess
  *         data: [
  *           {
  *             id: '123e4567-e89b-12d3-a456-426614174000',
@@ -92,13 +162,33 @@ const userController = new UserController(useCase)
  *         - message
  *       example:
  *         status: 200
- *         message: Success
+ *         message: sucess
  *         data: {
  *           id: '123e4567-e89b-12d3-a456-426614174000',
  *           name: 'John Doe',
  *           email: 'johndoe@email.com'
  *         }
  *         meta: null
+ *
+ *     ResponseNotFound:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: integer
+ *           description: HTTP status code
+ *         message:
+ *           type: string
+ *           description: Response message
+ *         details:
+ *           type: object
+ *           description: Response data
+ *       required:
+ *         - status
+ *         - message
+ *       example:
+ *         status: 404
+ *         message: resource not found
+ *         details: null
  * 
  *     RequestUserObject:
  *       type: object
@@ -143,61 +233,3 @@ const userController = new UserController(useCase)
  *         name: John Doe
  *         email: johndoe@email.com
  */
-
-/** 
- * @swagger
- * /users:
- *   get:
- *     summary: Get all users
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: List of users
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ResponseUsersArray'
- */
-router.get('/users', paginationMiddleware, userController.getUsers)
-
-/** 
- * @swagger
- * /users/{id}:
- *   get:
- *     summary: Get a user by ID
- *     tags: [Users]
- *     parameters:
- *       - $ref: '#/components/parameters/UserId'
- *     responses:
- *       200:
- *         description: An user
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ResponseUserObject'
- */
-router.get('/users/:id', validateData(getUserSchema, Type.PARAMS), userController.getUserById)
-
-/** 
- * @swagger
- * /users:
- *   post:
- *     summary: Create a user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/RequestUserObject'
- *     responses:
- *       201:
- *         description: The user was created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ResponseUserObject'
- */
-router.post('/users', validateData(createUserSchema, Type.BODY), userController.createUser)
-
-export { router }
