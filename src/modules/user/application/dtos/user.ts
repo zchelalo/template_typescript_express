@@ -1,13 +1,34 @@
 import { UserValue } from '../../domain/value'
 
+/**
+ * Data Transfer Object for User.
+ * 
+ * This class is responsible for transferring user data between different parts of the application or across application boundaries.
+*/
 export class UserDTO {
-  id: string;
-  name: string;
-  email: string;
+  /**
+   * The unique identifier of the user.
+  */
+  id: string
 
+  /**
+   * The name of the user.
+  */
+  name: string
+
+  /**
+   * The email address of the user.
+  */
+  email: string
+
+  /**
+   * Creates an instance of UserDTO.
+   * 
+   * @param {UserValue} user - The user value object from the domain layer.
+  */
   constructor({ id, name, email }: UserValue) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
+    this.id = id
+    this.name = name
+    this.email = email
   }
 }
