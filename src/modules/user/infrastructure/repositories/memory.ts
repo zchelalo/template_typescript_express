@@ -1,6 +1,6 @@
 import { UserEntity } from '../../domain/entity'
 import { UserRepository } from '../../domain/repository'
-import { NotFoundError } from 'src/helpers/errors/custom_error'
+import { BadRequestError, NotFoundError } from 'src/helpers/errors/custom_error'
 
 const users: UserEntity[] = [
   {
@@ -93,6 +93,10 @@ export class MemoryRepository implements UserRepository {
    * @returns {Promise<UserEntity>} A promise that resolves with the created user entity.
   */
   async createUser(userData: UserEntity): Promise<UserEntity> {
+    const userExists = users.some(user => user.email === userData.email)
+    if (userExists) {
+      throw new BadRequestError('user already exists')
+    }
     users.push(userData)
     return userData
   }
