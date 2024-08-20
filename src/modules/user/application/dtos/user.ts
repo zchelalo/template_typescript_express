@@ -1,11 +1,11 @@
 import { UserValue } from '../../domain/value'
 
 /**
- * Data Transfer Object for User.
+ * Data Transfer Object for User Response.
  * 
  * This class is responsible for transferring user data between different parts of the application or across application boundaries.
 */
-export class UserDTO {
+export class DTOUserResponse {
   /**
    * The unique identifier of the user.
   */
@@ -22,7 +22,7 @@ export class UserDTO {
   email: string
 
   /**
-   * Creates an instance of UserDTO.
+   * Creates an instance of DTOUserResponse.
    * 
    * @param {UserValue} user - The user value object from the domain layer.
   */
