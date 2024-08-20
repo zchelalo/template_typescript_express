@@ -41,7 +41,7 @@ export class UserUseCase {
    * @function getUserById
    * @description Get a user by id.
    * @param id - Id of user.
-   * @returns A promise of the UserDTO.
+   * @returns {Promise<UserDTO>} A promise that resolves to the UserDTO.
    * @example
    * ```ts
    * const id = '938d6f5b-b4a6-4669-a514-ddb3a23621fc'
@@ -57,7 +57,7 @@ export class UserUseCase {
    * @function getUserByEmail
    * @description Get a user by email.
    * @param email - Email of user.
-   * @returns A promise of the UserDTO.
+   * @returns {Promise<UserDTO>} A promise that resolves to the UserDTO.
    * @example
    * ```ts
    * const email = 'test@email.com'
@@ -74,7 +74,7 @@ export class UserUseCase {
    * @description Get a page of users.
    * @param offset - The offset of the page.
    * @param limit - The limit of the page.
-   * @returns A promise of an array of UserDTO.
+   * @returns {Promise<UserDTO[]>} A promise that resolves to an array of UserDTO.
    * @example
    * ```ts
    * const offset = 0
@@ -90,7 +90,7 @@ export class UserUseCase {
   /**
    * @function count
    * @description Get the count of users.
-   * @returns A promise of a number.
+   * @returns {Promise<number>} A promise that resolves to a number of users.
    * @example
    * ```ts
    * const count = await userUseCase.count()
@@ -102,10 +102,9 @@ export class UserUseCase {
 
   /**
    * @function createUser
-   * @description Create a new user.
-   * This method hashes the user's password using bcrypt before saving the user.
+   * @description Create a new user. This method hashes the user's password using bcrypt before saving the user.
    * @param user - User to be created.
-   * @returns A promise of the user's UserDTO created.
+   * @returns {Promise<UserDTO>} A promise that resolves to the user's UserDTO created.
    * @example
    * ```ts
    * const user = {

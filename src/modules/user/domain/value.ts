@@ -1,12 +1,43 @@
 import { v4 as uuid } from 'uuid'
 import { UserEntity } from './entity'
 
+/**
+ * UserValue class.
+ * 
+ * This class implements the UserEntity interface and represents a value object for a User. It automatically generates a UUID for the user upon creation.
+ * 
+ * @implements {UserEntity}
+*/
 export class UserValue implements UserEntity {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
+  /**
+   * The unique identifier of the user.
+   * @type {string}
+  */
+  id: string
 
+  /**
+   * The name of the user.
+   * @type {string}
+  */
+  name: string
+
+  /**
+   * The email address of the user.
+   * @type {string}
+  */
+  email: string
+
+  /**
+   * The password of the user, stored as a hashed string.
+   * @type {string}
+  */
+  password: string
+
+  /**
+   * Creates a new UserValue instance.
+   * 
+   * @param {UserEntity} user - The user entity containing the name, email, and password.
+  */
   constructor({ name, email, password }: UserEntity) {
     this.id = uuid()
     this.name = name
