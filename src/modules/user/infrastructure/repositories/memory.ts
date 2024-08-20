@@ -23,7 +23,21 @@ const users: UserEntity[] = [
   },
 ]
 
+/**
+ * MemoryRepository class.
+ * 
+ * This class implements the UserRepository interface to provide an in-memory data store for user entities. It is primarily used for testing or development purposes.
+ * 
+ * @implements {UserRepository}
+*/
 export class MemoryRepository implements UserRepository {
+  /**
+   * Retrieves a user by their ID from the in-memory store.
+   * 
+   * @param {string} id - The ID of the user to retrieve.
+   * @returns {Promise<UserEntity>} A promise that resolves with the user entity.
+   * @throws {NotFoundError} If the user with the given ID does not exist.
+  */
   async getUserById(id: string): Promise<UserEntity> {
     const userObtained = users.find(user => user.id === id)
     if (!userObtained) {
@@ -32,6 +46,13 @@ export class MemoryRepository implements UserRepository {
     return userObtained
   }
 
+  /**
+   * Retrieves a user by their email from the in-memory store.
+   * 
+   * @param {string} email - The email of the user to retrieve.
+   * @returns {Promise<UserEntity>} A promise that resolves with the user entity.
+   * @throws {NotFoundError} If the user with the given email does not exist.
+  */
   async getUserByEmail(email: string): Promise<UserEntity> {
     const userObtained = users.find(user => user.email === email)
     if (!userObtained) {
@@ -40,6 +61,14 @@ export class MemoryRepository implements UserRepository {
     return userObtained
   }
 
+  /**
+   * Retrieves a list of users from the in-memory store with pagination.
+   * 
+   * @param {number} offset - The number of users to skip before starting to collect the result set.
+   * @param {number} limit - The number of users to return.
+   * @returns {Promise<UserEntity[]>} A promise that resolves with an array of user entities.
+   * @throws {NotFoundError} If no users are found within the specified range.
+  */
   async getUsers(offset: number, limit: number): Promise<UserEntity[]> {
     const usersObtained = users.slice(offset, offset + limit)
     if (usersObtained.length === 0) {
@@ -48,10 +77,21 @@ export class MemoryRepository implements UserRepository {
     return usersObtained
   }
 
+  /**
+   * Counts the total number of users in the in-memory store.
+   * 
+   * @returns {Promise<number>} A promise that resolves with the total number of users.
+  */
   async count(): Promise<number> {
     return users.length
   }
 
+  /**
+   * Creates a new user in the in-memory store.
+   * 
+   * @param {UserEntity} userData - The user entity to be created.
+   * @returns {Promise<UserEntity>} A promise that resolves with the created user entity.
+  */
   async createUser(userData: UserEntity): Promise<UserEntity> {
     users.push(userData)
     return userData
