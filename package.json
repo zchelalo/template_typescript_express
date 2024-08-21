@@ -56,9 +56,7 @@
     },
     "collectCoverage": true,
     "coverageReporters": [
-      "json",
-      "html",
-      "text"
+      "html"
     ],
     "reporters": [
       "default",
