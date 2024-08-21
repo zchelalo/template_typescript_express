@@ -1,7 +1,8 @@
 import 'src/config'
+import { logger } from './helpers/logger'
 
 const init = async () => {
-  console.log('Jest setup')
+  logger.info('setup test environment')
 }
 
 init()

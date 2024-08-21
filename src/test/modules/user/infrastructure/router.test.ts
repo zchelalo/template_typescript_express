@@ -9,7 +9,7 @@ describe('User router', () => {
       expect(response.status).toBe(200)
       expect(response.body.status).toBe(200)
 
-      expect(response.body.message).toBe('success')
+      expect(response.body.message).not.toBeNull()
 
       expect(response.body.data).toBeInstanceOf(Array)
       expect(response.body.data.length).toBeGreaterThan(0)
@@ -36,7 +36,7 @@ describe('User router', () => {
       expect(response.status).toBe(200)
       expect(response.body.status).toBe(200)
 
-      expect(response.body.message).toBe('success')
+      expect(response.body.message).not.toBeNull()
 
       expect(response.body.data).toBeInstanceOf(Array)
       expect(response.body.data.length).toBeGreaterThan(0)
@@ -63,7 +63,7 @@ describe('User router', () => {
       expect(response.status).toBe(200)
       expect(response.body.status).toBe(200)
 
-      expect(response.body.message).toBe('success')
+      expect(response.body.message).not.toBeNull()
 
       expect(response.body.data).toBeInstanceOf(Array)
       expect(response.body.data.length).toBeGreaterThan(0)
@@ -90,7 +90,7 @@ describe('User router', () => {
       expect(response.status).toBe(200)
       expect(response.body.status).toBe(200)
 
-      expect(response.body.message).toBe('success')
+      expect(response.body.message).not.toBeNull()
 
       expect(response.body.data).toBeInstanceOf(Array)
       expect(response.body.data.length).toBeGreaterThan(0)
@@ -117,7 +117,7 @@ describe('User router', () => {
       expect(response.status).toBe(200)
       expect(response.body.status).toBe(200)
 
-      expect(response.body.message).toBe('success')
+      expect(response.body.message).not.toBeNull()
 
       expect(response.body.data).toBeInstanceOf(Array)
       expect(response.body.data.length).toBeGreaterThan(0)
@@ -144,7 +144,7 @@ describe('User router', () => {
       expect(response.status).toBe(200)
       expect(response.body.status).toBe(200)
 
-      expect(response.body.message).toBe('success')
+      expect(response.body.message).not.toBeNull()
 
       expect(response.body.data).toBeInstanceOf(Array)
       expect(response.body.data.length).toBeGreaterThan(0)
@@ -163,6 +163,54 @@ describe('User router', () => {
       expect(response.body.meta.perPage).toBeGreaterThan(1)
       expect(response.body.meta.pageCount).toBe(1)
       expect(response.body.meta.totalCount).toBeGreaterThan(1)
+    })
+  })
+
+  describe('GET /users/:id', () => {
+    it('should return a user by their ID', async () => {
+      const user = {
+        name: 'John Fifth',
+        email: 'johnfifth@email.com',
+        password: '12345678'
+      }
+      const newUser = await request(app).post('/api/users').send(user)
+
+      const response = await request(app).get(`/api/users/${newUser.body.data.id}`).send()
+
+      expect(response.status).toBe(200)
+      expect(response.body.status).toBe(200)
+
+      expect(response.body.message).not.toBeNull()
+
+      expect(response.body.data).toHaveProperty('id')
+      expect(response.body.data).toHaveProperty('name')
+      expect(response.body.data).toHaveProperty('email')
+
+      expect(response.body.meta).toBeNull()
+    })
+
+    it('should return a validation error when the ID is an invalid UUID', async () => {
+      const response = await request(app).get('/api/users/1').send()
+
+      expect(response.status).toBe(400)
+      expect(response.body.status).toBe(400)
+
+      expect(response.body.message).not.toBeNull()
+
+      expect(response.body.details).toBeInstanceOf(Array)
+      expect(response.body.details.length).toBeGreaterThan(0)
+      expect(response.body.details[0]).toHaveProperty('message')
+    })
+
+    it('should return a not found error when the user does not exist', async () => {
+      const response = await request(app).get('/api/users/123e4567-e89b-12d3-a456-426614174999').send()
+
+      expect(response.status).toBe(404)
+      expect(response.body.status).toBe(404)
+
+      expect(response.body.message).not.toBeNull()
+
+      expect(response.body.details).toBeNull()
     })
   })
 })

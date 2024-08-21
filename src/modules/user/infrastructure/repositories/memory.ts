@@ -4,19 +4,19 @@ import { BadRequestError, NotFoundError } from 'src/helpers/errors/custom_error'
 
 const users: UserEntity[] = [
   {
-    id: '1',
+    id: '123e4567-e89b-12d3-a456-426614174000',
     name: 'John One',
     email: 'johnone@email.com',
     password: '12345678',
   },
   {
-    id: '2',
+    id: '123f7890-b12c-34d5-e678-901234567890',
     name: 'John Two',
     email: 'johntwo@email.com',
     password: '12345678',
   },
   {
-    id: '3',
+    id: '123a567b-c89d-01e2-345f-678901234567',
     name: 'John Three',
     email: 'johnthree@email.com',
     password: '12345678',
