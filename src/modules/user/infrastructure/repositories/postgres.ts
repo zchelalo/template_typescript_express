@@ -3,7 +3,7 @@ import { UserRepository } from '../../domain/repository'
 import { db } from 'src/data/drizzle'
 import { user } from 'src/data/drizzle/schema'
 import { count, eq } from 'drizzle-orm'
-import { BadRequestError, DatabaseError, NotFoundError } from 'src/helpers/errors/custom_error'
+import { ConflictError, DatabaseError, NotFoundError } from 'src/helpers/errors/custom_error'
 
 /**
  * PostgresRepository class.
@@ -75,13 +75,13 @@ export class PostgresRepository implements UserRepository {
    * 
    * @param {UserEntity} userData - The user entity to be created.
    * @returns {Promise<UserEntity>} A promise that resolves with the created user entity.
-   * @throws {BadRequestError} If a user with the given email already exists.
+   * @throws {ConflictError} If a user with the given email already exists.
    * @throws {DatabaseError} If the user could not be created.
   */
   async createUser(userData: UserEntity): Promise<UserEntity> {
     const userObtained = await db.select().from(user).where(eq(user.email, userData.email)).limit(1)
     if (userObtained.length > 0) {
-      throw new BadRequestError(`user with email '${userData.email}' already exists`)
+      throw new ConflictError(`email already exists`)
     }
 
     const userCreated = await db.insert(user).values(userData).returning()
