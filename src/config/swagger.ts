@@ -2,6 +2,18 @@ import swaggerJSDoc from 'swagger-jsdoc'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+// Lista de directorios que contienen archivos YAML
+const directories = [
+  'user'
+]
+
+// Crear una lista de rutas de archivos YAML
+const apis = directories.map(dir =>
+  join(__dirname, `../modules/${dir}/infrastructure/swagger.yml`)
+)
+
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: '3.0.0',
@@ -18,9 +30,7 @@ const options: swaggerJSDoc.Options = {
       }
     ]
   },
-  apis: [
-    join(dirname(fileURLToPath(import.meta.url)), '../modules/*/infrastructure/router.ts')
-  ]
+  apis
 }
 
 export const swaggerSpec = swaggerJSDoc(options)
