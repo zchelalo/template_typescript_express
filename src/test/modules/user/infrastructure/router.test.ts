@@ -213,4 +213,86 @@ describe('User router', () => {
       expect(response.body.details).toBeNull()
     })
   })
+
+  describe('POST /users', () => {
+    it('should create a new user', async () => {
+      const user = {
+        name: 'John Sixth',
+        email: 'johnsixth@email.com',
+        password: '12345678'
+      }
+      const response = await request(app).post('/api/users').send(user)
+
+      expect(response.status).toBe(201)
+      expect(response.body.status).toBe(201)
+
+      expect(response.body.message).not.toBeNull()
+
+      expect(response.body.data).toHaveProperty('id')
+      expect(response.body.data).toHaveProperty('name')
+      expect(response.body.data).toHaveProperty('email')
+
+      expect(response.body.meta).toBeNull()
+    })
+
+    it('should return a validation error when the user email is invalid', async () => {
+      const user = {
+        name: 'John Seventh',
+        email: 'johnseventhemail.com',
+        password: '12345678'
+      }
+      const response = await request(app).post('/api/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.status).toBe(400)
+
+      expect(response.body.message).not.toBeNull()
+
+      expect(response.body.details).toBeInstanceOf(Array)
+      expect(response.body.details.length).toBeGreaterThan(0)
+      expect(response.body.details[0]).toHaveProperty('message')
+    })
+
+    it('should return a validation error when the user password is invalid', async () => {
+      const user = {
+        name: 'John Eighth',
+        email: 'johneighth@email.com',
+        password: '1234'
+      }
+      const response = await request(app).post('/api/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.status).toBe(400)
+
+      expect(response.body.message).not.toBeNull()
+
+      expect(response.body.details).toBeInstanceOf(Array)
+      expect(response.body.details.length).toBeGreaterThan(0)
+      expect(response.body.details[0]).toHaveProperty('message')
+    })
+
+    it('should return a conflict error when the user already exists', async () => {
+      const user = {
+        name: 'John Ninth',
+        email: 'johnninth@email.com',
+        password: '12345678'
+      }
+      const newUser = await request(app).post('/api/users').send(user)
+      expect(newUser.status).toBe(201)
+      expect(newUser.body.status).toBe(201)
+
+      const newUserObtained = await request(app).get(`/api/users/${newUser.body.data.id}`).send()
+      expect(newUserObtained.status).toBe(200)
+      expect(newUserObtained.body.status).toBe(200)
+
+      const response = await request(app).post('/api/users').send(user)
+
+      expect(response.status).toBe(409)
+      expect(response.body.status).toBe(409)
+
+      expect(response.body.message).not.toBeNull()
+
+      expect(response.body.details).toBeNull()
+    })
+  })
 })
