@@ -33,6 +33,12 @@ const userController = new UserController(useCase)
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ResponseUsersArray'
+ *       404:
+ *         description: Users not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseNotFound'
  */
 router.get('/users', paginationMiddleware, userController.getUsers)
 
@@ -57,6 +63,12 @@ router.get('/users', paginationMiddleware, userController.getUsers)
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ResponseNotFound'
+ *       400:
+ *         description: A validation error occurred
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseBadRequest'
  */
 router.get('/users/:id', validateData(getUserSchema, Type.PARAMS), userController.getUserById)
 
@@ -79,6 +91,18 @@ router.get('/users/:id', validateData(getUserSchema, Type.PARAMS), userControlle
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ResponseUserObject'
+ *       400:
+ *         description: A validation error occurred
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseBadRequest'
+ *       409:
+ *         description: The email already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseConflict'
  */
 router.post('/users', validateData(createUserSchema, Type.BODY), userController.createUser)
 
@@ -181,7 +205,7 @@ export { router }
  *           description: Response message
  *         details:
  *           type: object
- *           description: Response data
+ *           description: Details of the response
  *       required:
  *         - status
  *         - message
@@ -189,6 +213,59 @@ export { router }
  *         status: 404
  *         message: resource not found
  *         details: null
+ * 
+ *     ResponseConflict:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: integer
+ *           description: HTTP status code
+ *         message:
+ *           type: string
+ *           description: Response message
+ *         details:
+ *           type: object
+ *           description: Details of the response
+ *       required:
+ *         - status
+ *         - message
+ *       example:
+ *         status: 409
+ *         message: Conflict email already exists
+ *         details: null
+ * 
+ *     ResponseBadRequest:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: integer
+ *           description: HTTP status code
+ *         message:
+ *           type: string
+ *           description: Response message
+ *         details:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: Validation error message
+ *           description: List of validation error messages
+ *       required:
+ *         - status
+ *         - message
+ *       example:
+ *         status: 400
+ *         message: Bad request validation error
+ *         details: [
+ *           {
+ *              message: 'email is not valid'
+ *           },
+ *           {
+ *             message: 'password must be at least 8 characters'
+ *           }
+ *         ]
  * 
  *     RequestUserObject:
  *       type: object
