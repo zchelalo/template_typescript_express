@@ -169,8 +169,8 @@ describe('User router', () => {
   describe('GET /users/:id', () => {
     it('should return a user by their ID', async () => {
       const user = {
-        name: 'John Fifth',
-        email: 'johnfifth@email.com',
+        name: 'John First',
+        email: 'johnfirst@email.com',
         password: '12345678'
       }
       const newUser = await request(app).post('/api/users').send(user)
@@ -217,8 +217,8 @@ describe('User router', () => {
   describe('POST /users', () => {
     it('should create a new user', async () => {
       const user = {
-        name: 'John Sixth',
-        email: 'johnsixth@email.com',
+        name: 'John Second',
+        email: 'johnsecond@email.com',
         password: '12345678'
       }
       const response = await request(app).post('/api/users').send(user)
@@ -237,8 +237,8 @@ describe('User router', () => {
 
     it('should return a validation error when the user email is invalid', async () => {
       const user = {
-        name: 'John Seventh',
-        email: 'johnseventhemail.com',
+        name: 'John Third',
+        email: 'johnthirdemail.com',
         password: '12345678'
       }
       const response = await request(app).post('/api/users').send(user)
@@ -255,8 +255,8 @@ describe('User router', () => {
 
     it('should return a validation error when the user password is invalid', async () => {
       const user = {
-        name: 'John Eighth',
-        email: 'johneighth@email.com',
+        name: 'John Fourth',
+        email: 'johnfourth@email.com',
         password: '1234'
       }
       const response = await request(app).post('/api/users').send(user)
@@ -273,8 +273,8 @@ describe('User router', () => {
 
     it('should return a conflict error when the user already exists', async () => {
       const user = {
-        name: 'John Ninth',
-        email: 'johnninth@email.com',
+        name: 'John Fifth',
+        email: 'johnfifth@email.com',
         password: '12345678'
       }
       const newUser = await request(app).post('/api/users').send(user)

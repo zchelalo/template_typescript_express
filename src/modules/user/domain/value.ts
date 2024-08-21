@@ -36,9 +36,11 @@ export class UserValue implements UserEntity {
   /**
    * Creates a new UserValue instance.
    * 
-   * @param {UserEntity} user - The user entity containing the name, email, and password.
+   * @param {string} name - The name of the user.
+   * @param {string} email - The email address of the user.
+   * @param {string} password - The password of the user.
   */
-  constructor({ name, email, password }: UserEntity) {
+  constructor(name: string, email: string, password: string) {
     this.id = uuid()
     this.name = name
     this.email = email

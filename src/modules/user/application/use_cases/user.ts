@@ -1,7 +1,14 @@
 import { UserEntity } from '../../domain/entity'
 import { UserRepository } from '../../domain/repository'
 import { UserValue } from '../../domain/value'
-import { DTOUserResponse } from '../dtos/user'
+import { DTOUserCreate } from '../dtos/user_create'
+import { DTOUserResponse } from '../dtos/user_response'
+import {
+  getUserByIDSchema,
+  getUserByEmailSchema,
+  paginationSchema,
+  createUserSchema
+} from '../schemas/user'
 
 import bcrypt from 'bcrypt'
 
@@ -49,6 +56,8 @@ export class UserUseCase {
    * ```
   */
   public async getUserById(id: string): Promise<DTOUserResponse> {
+    getUserByIDSchema.parse({ id })
+
     const userObtained = await this.userRepository.getUserById(id)
     return new DTOUserResponse(userObtained)
   }
@@ -65,6 +74,8 @@ export class UserUseCase {
    * ```
   */
   public async getUserByEmail(email: string): Promise<DTOUserResponse> {
+    getUserByEmailSchema.parse({ email })
+
     const userObtained = await this.userRepository.getUserByEmail(email)
     return new DTOUserResponse(userObtained)
   }
@@ -83,6 +94,8 @@ export class UserUseCase {
    * ```
   */
   public async getUsers(offset: number, limit: number): Promise<DTOUserResponse[]> {
+    paginationSchema.parse({ offset, limit })
+
     const usersObtained = await this.userRepository.getUsers(offset, limit)
     return usersObtained.map(user => new DTOUserResponse(user))
   }
@@ -115,11 +128,13 @@ export class UserUseCase {
    * const newUser = await userUseCase.createUser(user)
    * ```
   */
-  public async createUser(user: UserEntity): Promise<DTOUserResponse> {
+  public async createUser(user: DTOUserCreate): Promise<DTOUserResponse> {
+    createUserSchema.parse(user)
+
     const password = await bcrypt.hash(user.password, 10)
     user.password = password
-    const userValue = new UserValue(user)
-    const userCreated = await this.userRepository.createUser(userValue)
-    return new DTOUserResponse(userCreated)
+    const userValue = new UserValue(user.name, user.email, user.password)
+    await this.userRepository.createUser(userValue)
+    return new DTOUserResponse(userValue)
   }
 }

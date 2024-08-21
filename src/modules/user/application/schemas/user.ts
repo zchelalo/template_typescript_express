@@ -18,10 +18,34 @@ export const createUserSchema = z.object({
 /**
  * User schema
  * 
- * Represents the validation schema for get a User object.
+ * Represents the validation schema for get a User object by ID.
  * 
  * @param {string} id - The id of the user, must be a valid uuid.
  */
-export const getUserSchema = z.object({
+export const getUserByIDSchema = z.object({
   id: z.string().uuid()
+})
+
+/**
+ * User schema
+ * 
+ * Represents the validation schema for get a User object by email.
+ * 
+ * @param {string} email - The email of the user, must be a valid email.
+ */
+export const getUserByEmailSchema = z.object({
+  email: z.string().email()
+})
+
+/**
+ * User schema
+ * 
+ * Represents the validation schema for get the pagination to get Users.
+ * 
+ * @param {number} offset - The offset of the pagination, must be a valid positive integer.
+ * @param {number} limit - The limit of the pagination, must be a valid integer greater than zero.
+ */
+export const paginationSchema = z.object({
+  offset: z.number().int().min(0),
+  limit: z.number().int().min(1)
 })
