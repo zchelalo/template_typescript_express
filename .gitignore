@@ -4,3 +4,4 @@ DB
 dist
 docs
 logs
+coverage
