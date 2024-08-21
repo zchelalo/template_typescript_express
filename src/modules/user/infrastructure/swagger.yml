@@ -79,12 +79,12 @@ paths:
                 $ref: '#/components/schemas/ResponseBadRequest'
 
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: JWT authentication
+  # securitySchemes:
+  #   bearerAuth:
+  #     type: http
+  #     scheme: bearer
+  #     bearerFormat: JWT
+  #     description: JWT authentication
 
   parameters:
     UserId:
