@@ -1,7 +1,7 @@
 import { UserEntity } from '../../domain/entity'
 import { UserRepository } from '../../domain/repository'
-import { db } from 'src/data/drizzle'
-import { user } from 'src/data/drizzle/schema'
+import { db } from 'src/data/drizzle/config/orm'
+import { user } from 'src/data/drizzle/schemas'
 import { count, desc, eq } from 'drizzle-orm'
 import { ConflictError, DatabaseError, NotFoundError } from 'src/helpers/errors/custom_error'
 

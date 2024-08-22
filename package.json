@@ -5,8 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "migration:generate": "drizzle-kit generate --config=./src/data/drizzle/config/drizzle_kit.ts",
+    "migration:push": "tsx ./src/data/drizzle/config/migrate.ts",
+
     "docs": "typedoc --entryPointStrategy expand ./src --name 'App' --out docs",
+
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles || true",
+
     "dev": "nodemon"
   },
   "keywords": [],
