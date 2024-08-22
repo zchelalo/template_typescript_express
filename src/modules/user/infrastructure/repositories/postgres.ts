@@ -2,7 +2,7 @@ import { UserEntity } from '../../domain/entity'
 import { UserRepository } from '../../domain/repository'
 import { db } from 'src/data/drizzle'
 import { user } from 'src/data/drizzle/schema'
-import { count, eq } from 'drizzle-orm'
+import { count, desc, eq } from 'drizzle-orm'
 import { ConflictError, DatabaseError, NotFoundError } from 'src/helpers/errors/custom_error'
 
 /**
@@ -21,7 +21,17 @@ export class PostgresRepository implements UserRepository {
    * @throws {NotFoundError} If the user with the given ID does not exist.
   */
   async getUserById(id: string): Promise<UserEntity> {
-    const userObtained = await db.select().from(user).where(eq(user.id, id)).limit(1)
+    const userObtained = await db
+      .select({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: user.password
+      })
+      .from(user)
+      .where(eq(user.id, id))
+      .limit(1)
+
     if (userObtained.length === 0) {
       throw new NotFoundError(`user with id '${id}'`)
     }
@@ -36,7 +46,17 @@ export class PostgresRepository implements UserRepository {
    * @throws {NotFoundError} If the user with the given email does not exist.
   */
   async getUserByEmail(email: string): Promise<UserEntity> {
-    const userObtained = await db.select().from(user).where(eq(user.email, email)).limit(1)
+    const userObtained = await db
+      .select({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: user.password
+      })
+      .from(user)
+      .where(eq(user.email, email))
+      .limit(1)
+
     if (userObtained.length === 0) {
       throw new NotFoundError(`user with email '${email}'`)
     }
@@ -52,7 +72,18 @@ export class PostgresRepository implements UserRepository {
    * @throws {NotFoundError} If no users are found.
   */
   async getUsers(offset: number, limit: number): Promise<UserEntity[]> {
-    const usersObtained = await db.select().from(user).offset(offset).limit(limit)
+    const usersObtained = await db
+      .select({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: user.password
+      })
+      .from(user)
+      .offset(offset)
+      .limit(limit)
+      .orderBy(desc(user.createdAt))
+
     if (usersObtained.length === 0) {
       throw new NotFoundError('users')
     }
@@ -66,7 +97,12 @@ export class PostgresRepository implements UserRepository {
    * @returns {Promise<number>} A promise that resolves with the number of users.
   */
   async count(): Promise<number> {
-    const usersCount = await db.select({ count: count() }).from(user)
+    const usersCount = await db
+      .select({
+        count: count()
+      })
+      .from(user)
+
     return usersCount[0].count
   }
 
@@ -79,12 +115,28 @@ export class PostgresRepository implements UserRepository {
    * @throws {DatabaseError} If the user could not be created.
   */
   async createUser(userData: UserEntity): Promise<UserEntity> {
-    const userObtained = await db.select().from(user).where(eq(user.email, userData.email)).limit(1)
+    const userObtained = await db
+      .select({
+        id: user.id
+      })
+      .from(user)
+      .where(eq(user.email, userData.email))
+      .limit(1)
+
     if (userObtained.length > 0) {
       throw new ConflictError(`email already exists`)
     }
 
-    const userCreated = await db.insert(user).values(userData).returning()
+    const userCreated = await db
+      .insert(user)
+      .values(userData)
+      .returning({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: user.password
+      })
+
     if (userCreated.length === 0) {
       throw new DatabaseError('user not created')
     }
