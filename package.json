@@ -5,10 +5,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "create:envs": "bash ./scripts/create_envs.sh",
+    "create:docs": "typedoc --entryPointStrategy expand ./src --name 'App' --out docs",
+
+    "compose": "docker compose -f ./.dockers/docker-compose.yml up",
+    "compose:build": "docker compose -f ./.dockers/docker-compose.yml up --build",
+
     "migration:generate": "docker exec -it app npx drizzle-kit generate --config=./src/data/drizzle/config/drizzle_kit.ts",
     "migration:push": "docker exec -it app npx tsx ./src/data/drizzle/config/migrate.ts",
-
-    "docs": "typedoc --entryPointStrategy expand ./src --name 'App' --out docs",
+    "migrate": "npm run migration:generate && npm run migration:push",
 
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles || true",
 
