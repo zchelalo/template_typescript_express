@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "migration:generate": "drizzle-kit generate --config=./src/data/drizzle/config/drizzle_kit.ts",
-    "migration:push": "tsx ./src/data/drizzle/config/migrate.ts",
+    "migration:generate": "docker exec -it app npx drizzle-kit generate --config=./src/data/drizzle/config/drizzle_kit.ts",
+    "migration:push": "docker exec -it app npx tsx ./src/data/drizzle/config/migrate.ts",
 
     "docs": "typedoc --entryPointStrategy expand ./src --name 'App' --out docs",
 
