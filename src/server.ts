@@ -8,10 +8,17 @@ import { logErrors, unknownErrorHandler, customErrorHandler } from './middleware
 
 import { router as userRouter } from './modules/user/infrastructure/router'
 
+import { ForbiddenError } from './helpers/errors/custom_error'
+
 import { serve, setup } from 'swagger-ui-express'
 import { swaggerSpec } from './config/swagger'
 
 const app = express()
+
+app.use(express.json())
+app.use(cookieParser())
+app.use(logRequestMiddleware)
+app.use(responseMiddleware)
 
 const whitelist = ['http://localhost:5173']
 app.use(cors({
@@ -19,16 +26,11 @@ app.use(cors({
     if (whitelist.includes(origin as string) || !origin) {
       callback(null, true)
     } else {
-      callback(new Error('no permitido'))
+      callback(new ForbiddenError())
     }
   },
   credentials: true
 }))
-
-app.use(express.json())
-app.use(cookieParser())
-app.use(logRequestMiddleware)
-app.use(responseMiddleware)
 
 app.use('/api', userRouter)
 
