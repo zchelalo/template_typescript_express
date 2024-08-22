@@ -13,25 +13,17 @@ import { swaggerSpec } from './config/swagger'
 
 const app = express()
 
-
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-  app.use(cors({
-    origin: '*',
-    credentials: true
-  }))
-} else {
-  const whitelist = ['http://localhost:5173']
-  app.use(cors({
-    origin: (origin, callback) => {
-      if (whitelist.includes(origin as string) || !origin) {
-        callback(null, true)
-      } else {
-        callback(new Error('no permitido'))
-      }
-    },
-    credentials: true
-  }))
-}
+const whitelist = ['http://localhost:5173']
+app.use(cors({
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin as string) || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('no permitido'))
+    }
+  },
+  credentials: true
+}))
 
 app.use(express.json())
 app.use(cookieParser())
