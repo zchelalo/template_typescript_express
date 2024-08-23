@@ -12,6 +12,7 @@ Existen muchas maneras de crear una REST API en NodeJS, siempre a la hora de com
   - [Migraciones](#migraciones)
   - [Testing](#testing)
   - [Documentación](#documentación)
+  - [REST client](#rest-client)
 - [Contribuciones](#contribuciones)
 
 ## ¿Qué es la arquitectura hexagonal?
