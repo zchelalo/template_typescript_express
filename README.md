@@ -3,7 +3,6 @@ Existen muchas maneras de crear una REST API en NodeJS, siempre a la hora de com
 
 ### Tabla de contenido
 - [¿Qué es la arquitectura hexagonal?](#qué-es-la-arquitectura-hexagonal)
-  - [Componentes](#componentes)
   - [¿Por qué usarla?](#por-qué-usarla)
 - [Herramientas utilizadas](#herramientas-utilizadas)
 - [¿Cómo ejecutar el proyecto?](#cómo-ejecutar-el-proyecto)
@@ -16,10 +15,16 @@ Existen muchas maneras de crear una REST API en NodeJS, siempre a la hora de com
 - [Contribuciones](#contribuciones)
 
 ## ¿Qué es la arquitectura hexagonal?
+Como su nombre lo dice, es una arquitectura la cual se divide en hexagonos, más concretamente son tres:
 
-### Componentes
+- Domain. Es el nucleo del hexágono, contiene toda la lógica de negocio pura. Es donde se definen las entidades, objetos de valor, agregados e interfaces de repositorios. Esta capa solo puede hablar con si misma, no tiene dependencia de ninguna otra capa.
+- Application. Son los casos de uso, es el intermediario o quien coordina las operaciones entre el dominio y la infraestructura. Aquí se aplican las reglas del negocio en respuesta a que suceda. Esta capa solo puede comunicarse con si misma y con el dominio.
+- Infrastructure. Implementa las interfaces definidas en las anteriores capas, aquí se encuentran los adaptadores que interactúan con la base de datos o cualquier otro servicio externo. Es quien gestiona la implementación de repositorios, configuraciones u otros aspectos operativos.
+
+El objetivo de utilizar esta arquitectura es el separar responsabilidades, al hacerlo si a futuro es necesario cambiar algo puede hacerse sin tener que rehacer gran parte de la aplicación.
 
 ### ¿Por qué usarla?
+Ofrece orden, gran mantenibilidad y escalabilidad del proyecto. Al separar las responsabilidades si en algún momento se cambia de framework de desarrollo, de base de datos o cualquier otra cosa, solo se necesita cambiar esa parte del módulo. Sumado a eso, el que las diferentes secciones del proyecto sean independientes ayuda a hacer testing a la aplicación.
 
 ## Herramientas utilizadas
 - [Typescript](https://www.typescriptlang.org/docs/). Brinda una capa de seguridad y de velocidad al momento de desarrollar al agregar tipos a Javascript, se termina haciendo más cómodo.
