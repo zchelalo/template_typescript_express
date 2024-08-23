@@ -26,7 +26,7 @@ Como su nombre lo dice, es una arquitectura la cual se divide en hexagonos, más
 El objetivo de utilizar esta arquitectura es el separar responsabilidades, al hacerlo si a futuro es necesario cambiar algo puede hacerse sin tener que rehacer gran parte de la aplicación.
 
 ### ¿Por qué usarla?
-Ofrece orden, gran mantenibilidad y escalabilidad del proyecto. Al separar las responsabilidades si en algún momento se cambia de framework de desarrollo, de base de datos o cualquier otra cosa, solo se necesita cambiar esa parte del módulo. Sumado a eso, el que las diferentes secciones del proyecto sean independientes ayuda a hacer testing a la aplicación.
+Ofrece orden, consistencia y claridad en el código, además de tener gran mantenibilidad y escalabilidad del proyecto. Al separar las responsabilidades si en algún momento se cambia de framework de desarrollo, de base de datos o cualquier otra cosa, solo se necesita cambiar esa parte del módulo. Sumado a eso, el que las diferentes secciones del proyecto sean independientes ayuda a hacer testing a la aplicación.
 
 ## Herramientas utilizadas
 - [Typescript](https://www.typescriptlang.org/docs/). Brinda una capa de seguridad y de velocidad al momento de desarrollar al agregar tipos a Javascript, se termina haciendo más cómodo.
