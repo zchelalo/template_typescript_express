@@ -38,6 +38,7 @@ Ofrece orden, consistencia y claridad en el código, además de tener gran mante
 - [Supertest](https://www.npmjs.com/package/supertest). Herramienta muy sencilla y funcional para probar una API, además es muy usada con Express.
 - [Typedoc](https://typedoc.org/guides/installation/). Si conoces o haz usado JSDoc te será muy fácil usar Typedoc, además de que hace la mayor parte de la documentación basandose en los tipos de Typescript.
 - [Swagger](https://www.npmjs.com/package/swagger-jsdoc). Algunos frameworks lo integran por defecto, es sencillo de usar y para documentar y probar una API es de lo mejor que se puede usar. Además de ser de mucha ayuda para los desarrolladores del lado del cliente.
+- [Bruno](https://www.usebruno.com/downloads). Un REST client es esencial a la hora de desarrollar proyectos como este, a pesar de ya poder probar los endpoints con Swagger sigo usando un REST client por algunas de las herramientas que ofrece como el runner, además todos los endpoints se suben a GitHub hacilitando el trabajo en equipo y sin tener ningún costo.
 
 ## ¿Cómo ejecutar el proyecto?
 ### Requisitos previos
@@ -75,6 +76,9 @@ Fue usado para documentar el código, explicar que sentido tienen las funciones,
 
 #### Swagger
 Se utilizó para documentar la REST API, parámetros que acepta, el cuerpo que debe tener la petición, las respuestas de éxito o de error del endpoint, entre otras cosas. Para acceder a la documentación de Swagger de debe acceder a la url de "docs", de forma que si se dejan los parametros del template por defecto sería "http://localhost:8000/docs". Se pueden ver todos los endpoints agrupados por su respectivo "tag", además se puede especificar un schema de seguridad ya sea para el envío de JWT tokens, o algún otro método de seguridad.
+
+### REST client
+Los endpoints de Bruno estan en la carpeta "endpoints", lo único necesario para utilizarlos es abrir esa carpeta con la aplicación de Bruno. Una vez hecho esto solo se carga el environment necesario y se prueba cada endpoint, o a su vez se puede ejecutar el runner para probar si todo funciona correctamente.
 
 ## Contribuciones
 El proyecto esta abierto a contribuciones, si quieres apoyar con algo eres completamente libre de hacer una pull request, de hecho estaría encantado de recibirla.
