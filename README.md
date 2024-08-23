@@ -15,7 +15,9 @@ Existen muchas maneras de crear una REST API en NodeJS, siempre a la hora de com
 - [Contribuciones](#contribuciones)
 
 ## ¿Qué es la arquitectura hexagonal?
-Como su nombre lo dice, es una arquitectura la cual se divide en hexagonos, más concretamente son tres:
+Como su nombre lo dice, es una arquitectura la cual se divide en hexagonos, más concretamente son tres. Se presenta un esquema para que sea más fácil su entendimiento:
+
+![Hexagonal Architecture](./assets/images/hexagonal_architecture.png)
 
 - Domain. Es el nucleo del hexágono, contiene toda la lógica de negocio pura. Es donde se definen las entidades, objetos de valor, agregados e interfaces de repositorios. Esta capa solo puede hablar con si misma, no tiene dependencia de ninguna otra capa.
 - Application. Son los casos de uso, es el intermediario o quien coordina las operaciones entre el dominio y la infraestructura. Aquí se aplican las reglas del negocio en respuesta a que suceda. Esta capa solo puede comunicarse con si misma y con el dominio.
