@@ -70,3 +70,4 @@ Fue usado para documentar el código, explicar que sentido tienen las funciones,
 Se utilizó para documentar la REST API, parámetros que acepta, el cuerpo que debe tener la petición, las respuestas de éxito o de error del endpoint, entre otras cosas. Para acceder a la documentación de Swagger de debe acceder a la url de "docs", de forma que si se dejan los parametros del template por defecto sería "http://localhost:8000/docs". Se pueden ver todos los endpoints agrupados por su respectivo "tag", además se puede especificar un schema de seguridad ya sea para el envío de JWT tokens, o algún otro método de seguridad.
 
 ## Contribuciones
+El proyecto esta abierto a contribuciones, si quieres apoyar con algo eres completamente libre de hacer una pull request, de hecho estaría encantado de recibirla.
