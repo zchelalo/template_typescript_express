@@ -22,15 +22,15 @@ Existen muchas maneras de crear una REST API en NodeJS, siempre a la hora de com
 ### ¿Por qué usarla?
 
 ## Herramientas utilizadas
-- [Typescript](https://www.typescriptlang.org/docs/).
-- [Express](https://expressjs.com).
-- [Zod](https://zod.dev).
-- [Drizzle](https://orm.drizzle.team/docs/overview).
-- [Winston](https://www.npmjs.com/package/winston).
-- [Jest](https://jestjs.io/docs/getting-started).
-- [Supertest](https://www.npmjs.com/package/supertest).
-- [Typedoc](https://typedoc.org/guides/installation/).
-- [Swagger](https://www.npmjs.com/package/swagger-jsdoc).
+- [Typescript](https://www.typescriptlang.org/docs/). Brinda una capa de seguridad y de velocidad al momento de desarrollar al agregar tipos a Javascript, se termina haciendo más cómodo.
+- [Express](https://expressjs.com). Un framework sencillo, útil y probablemente el más conocido entre los desarrolladores en NodeJS.
+- [Zod](https://zod.dev). Zod es una librería muy completa para la validación de datos, además esta escrita en Typescript por lo que tiene tipos por defecto.
+- [Drizzle](https://orm.drizzle.team/docs/overview). Drizzle mismo lo dice, si sabes SQL sabes Drizzle, es muy cómodo de usar, ofrece un CLI y además es rápido.
+- [Winston](https://www.npmjs.com/package/winston). Es muy útil flexible, personalizable, tiene fácil integración con otras herramientas, etcetéra.
+- [Jest](https://jestjs.io/docs/getting-started). Es casi indispensable utilizar Jest para hacer testing unitario en tu aplicación, es sencillo de usar, robusto y personalizable.
+- [Supertest](https://www.npmjs.com/package/supertest). Herramienta muy sencilla y funcional para probar una API, además es muy usada con Express.
+- [Typedoc](https://typedoc.org/guides/installation/). Si conoces o haz usado JSDoc te será muy fácil usar Typedoc, además de que hace la mayor parte de la documentación basandose en los tipos de Typescript.
+- [Swagger](https://www.npmjs.com/package/swagger-jsdoc). Algunos frameworks lo integran por defecto, es sencillo de usar y para documentar y probar una API es de lo mejor que se puede usar. Además de ser de mucha ayuda para los desarrolladores del lado del cliente.
 
 ## ¿Cómo ejecutar el proyecto?
 ### Requisitos previos
