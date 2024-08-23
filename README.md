@@ -48,13 +48,17 @@ Habiendo configurado anteriormente las variables de entorno es hora de ejecutar 
 
 ### Migraciones
 Antes que nada, para que funcionen las migraciones tiene que estar ejecutandose el "docker compose" ya que la base de datos tiene que estar activa.
+
 Las migraciones son hechas con Drizzle, primero se generan los archivos ".sql" y la metadata de las migraciones al hacer un `npm run migration:generate`. Estos schemas SQL se hacen en base a los modelos creados con Drizzle, desde las tablas, la estructura de estas, sus relaciones, indices, todo se hace en automático.
+
 Una vez con las migraciones generadas se tiene que hacer el push con `npm run migration:push`. De esta forma se aplicarán las migraciones antes generadas.
+
 En ocasiones es un poco tedioso el andar ejecutando estos dos comandos por separado, de forma que existe un comando el cual crea las migraciones y después hace el push en uno solo, este comando es `npm run migrate`.
 
 ### Testing
-Una vez todo el proyecto esta en ejecución es hora de ejecutar los test. Estos se ubican en la carpeta "test" y dentro de esta se replica la ruta del archivo testeado, la única diferencia es que lleva un ".test" después del nombre. Dentro del package.json se encuentra el script a ejecutar, en este caso es `npm run test`. Primero pone la variable de entorno "NODE_ENV" con el valor de "test", de esta manera al momento de mapear las variables de entorno en el proyecto se carga el archivo ".env.test", así que si se quiere manejar un valor diferente durante los test, se puede hacer.
-Al ejecutar los test se creará una carpeta "coverage" en la raíz del proyecto, dentro de esta se encuentran dos reportes respecto a los test, el primero es un reporte llamado "test-report.html", el cual tiene información sobre si las pruebas pasaron o si resultaron en error. El segundo archivo creado es uno llamado "index.html", este tiene toda la información acerca de cuantas lineas de código están testeadas, puedes navegar entre el código para ver que lineas hacen falta por probar, de esa manera hacer test más completos.
+Una vez todo el proyecto esta en ejecución es hora de ejecutar los test. Estos se ubican en la carpeta "test" y dentro de esta se replica la ruta del archivo testeado, la única diferencia es que lleva un ".test" después del nombre. Dentro del package.json se encuentra el script a ejecutar, en este caso es `npm run test`. Primero pone la variable de entorno "NODE_ENV" con el valor de "test", de esta manera al cargar las variables de entorno en el proyecto se carga el archivo ".env.test", así que si se quiere manejar un valor diferente en las variables de entorno durante los test, se puede hacer.
+
+Al ejecutar los test se creará una carpeta "coverage" en la raíz del proyecto, dentro de esta se encuentran dos reportes respecto a los test, el primero es un reporte sobre los test ejecutados llamado "test-report.html", el cual tiene información sobre si las pruebas pasaron o si resultaron en error. El segundo archivo creado es uno llamado "index.html", este tiene toda la información acerca de cuantas lineas de código están testeadas, puedes navegar entre el código para ver que lineas hacen falta por probar, de esa manera hacer test más completos.
 
 ### Documentación
 
