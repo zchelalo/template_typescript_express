@@ -61,5 +61,12 @@ Una vez todo el proyecto esta en ejecución es hora de ejecutar los test. Estos 
 Al ejecutar los test se creará una carpeta "coverage" en la raíz del proyecto, dentro de esta se encuentran dos reportes respecto a los test, el primero es un reporte sobre los test ejecutados llamado "test-report.html", el cual tiene información sobre si las pruebas pasaron o si resultaron en error. El segundo archivo creado es uno llamado "index.html", este tiene toda la información acerca de cuantas lineas de código están testeadas, puedes navegar entre el código para ver que lineas hacen falta por probar, de esa manera hacer test más completos.
 
 ### Documentación
+La documentación en un proyecto es fundamental para que un proyecto sea mantenible y escalable, en este proyecto se utilizaron dos herramientas para este fin.
+
+#### Typedoc
+Fue usado para documentar el código, explicar que sentido tienen las funciones, variables, enums, clases, interfaces, etcetéra. Para ver la documentación del proyecto se ejecuta un script del package.json, el cual es `npm run create:docs`, esto creará una carpeta en la raíz del proyecto llamada "docs", dentro de ella se encuentra el "index.html", el archivo que tendremos que abrir para ver toda la documentación generada.
+
+#### Swagger
+Se utilizó para documentar la REST API, parámetros que acepta, el cuerpo que debe tener la petición, las respuestas de éxito o de error del endpoint, entre otras cosas. Para acceder a la documentación de Swagger de debe acceder a la url de "docs", de forma que si se dejan los parametros del template por defecto sería "http://localhost:8000/docs". Se pueden ver todos los endpoints agrupados por su respectivo "tag", además se puede especificar un schema de seguridad ya sea para el envío de JWT tokens, o algún otro método de seguridad.
 
 ## Contribuciones
