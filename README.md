@@ -1,85 +1,85 @@
 # Template Typescript & Express
-Existen muchas maneras de crear una REST API en NodeJS, siempre a la hora de comenzar un nuevo proyecto pienso en el cómo lo voy a hacer, ya sea las herramientas a utilizar, la arquitectura a usar, entre otras cosas. En este template junto las mejores herramientas posibles (criterio personal) sumado al uso de buenas practicas, para lograr hacer un proyecto mantenible y escalable.
+There are many ways to create a REST API in Node.js, and whenever I start a new project, I think about how I'm going to do it—what tools to use, which architecture to implement, among other things. In this template, I have combined the best possible tools (personal criteria) along with the use of best practices to create a maintainable and scalable project.
 
 ### Tabla de contenido
-- [¿Qué es la arquitectura hexagonal?](#qué-es-la-arquitectura-hexagonal)
-  - [¿Por qué usarla?](#por-qué-usarla)
-- [Herramientas utilizadas](#herramientas-utilizadas)
-- [¿Cómo ejecutar el proyecto?](#cómo-ejecutar-el-proyecto)
-  - [Requisitos previos](#requisitos-previos)
-  - [Variables de entorno](#variables-de-entorno)
-  - [Ejecución de docker](#ejecución-de-docker)
-  - [Migraciones](#migraciones)
+- [What is hexagonal architecture?](#what-is-hexagonal-architecture)
+  - [Why use it?](#why-use-it)
+- [Tools used](#tools-used)
+- [How to run the project?](#how-to-run-the-project)
+  - [Prerequisites](#prerequisites)
+  - [Environment variables](#environment-variables)
+  - [Docker execution](#docker-execution)
+  - [Migrations](#migrations)
   - [Testing](#testing)
-  - [Documentación](#documentación)
+  - [Documentation](#documentation)
   - [REST client](#rest-client)
-- [Contribuciones](#contribuciones)
+- [Contributions](#contributions)
 
-## ¿Qué es la arquitectura hexagonal?
-Como su nombre lo dice, es una arquitectura la cual se divide en hexagonos, más concretamente son tres. Se presenta un esquema para que sea más fácil su entendimiento:
+## What is hexagonal architecture?
+As the name suggests, it is an architecture divided into hexagons—more specifically, three. Below is a diagram to help with understanding:
 
 ![Hexagonal Architecture](./assets/images/hexagonal_architecture.png)
 
-- Domain. Es el nucleo del hexágono, contiene toda la lógica de negocio pura. Es donde se definen las entidades, objetos de valor, agregados e interfaces de repositorios. Esta capa solo puede hablar con si misma, no tiene dependencia de ninguna otra capa.
-- Application. Son los casos de uso, es el intermediario o quien coordina las operaciones entre el dominio y la infraestructura. Aquí se aplican las reglas del negocio en respuesta a que suceda. Esta capa solo puede comunicarse con si misma y con el dominio.
-- Infrastructure. Implementa las interfaces definidas en las anteriores capas, aquí se encuentran los adaptadores que interactúan con la base de datos o cualquier otro servicio externo. Es quien gestiona la implementación de repositorios, configuraciones u otros aspectos operativos.
+- Domain. This is the core of the hexagon, containing all the pure business logic. This is where entities, value objects, aggregates, and repository interfaces are defined. This layer can only communicate with itself and has no dependency on any other layer.
+- Application. These are the use cases, the intermediary that coordinates operations between the domain and infrastructure. Business rules are applied here in response to events. This layer can only communicate with itself and the domain.
+- Infrastructure. This layer implements the interfaces defined in the previous layers. It includes the adapters that interact with the database or any other external service. This layer manages the implementation of repositories, configurations, or other operational aspects.
 
-El objetivo de utilizar esta arquitectura es el separar responsabilidades, al hacerlo si a futuro es necesario cambiar algo puede hacerse sin tener que rehacer gran parte de la aplicación.
+The goal of using this architecture is to separate responsibilities. By doing so, if a change is needed in the future, it can be made without having to redo a large portion of the application.
 
-### ¿Por qué usarla?
-Ofrece orden, consistencia y claridad en el código, además de tener gran mantenibilidad y escalabilidad del proyecto. Al separar las responsabilidades si en algún momento se cambia de framework de desarrollo, de base de datos o cualquier otra cosa, solo se necesita cambiar esa parte del módulo. Sumado a eso, el que las diferentes secciones del proyecto sean independientes ayuda a hacer testing a la aplicación.
+### Why use it?
+It offers order, consistency, and clarity in the code, as well as great maintainability and scalability of the project. By separating responsibilities, if at any point you need to change the development framework, database, or anything else, you only need to modify that part of the module. Additionally, the independence of the different sections of the project makes testing the application easier.
 
-## Herramientas utilizadas
-- [Typescript](https://www.typescriptlang.org/docs/). Brinda una capa de seguridad y de velocidad al momento de desarrollar al agregar tipos a Javascript, se termina haciendo más cómodo.
-- [Express](https://expressjs.com). Un framework sencillo, útil y probablemente el más conocido entre los desarrolladores en NodeJS.
-- [Zod](https://zod.dev). Zod es una librería muy completa para la validación de datos, además esta escrita en Typescript por lo que tiene tipos por defecto.
-- [Drizzle](https://orm.drizzle.team/docs/overview). Drizzle mismo lo dice, si sabes SQL sabes Drizzle, es muy cómodo de usar, ofrece un CLI y además es rápido.
-- [Winston](https://www.npmjs.com/package/winston). Es muy útil flexible, personalizable, tiene fácil integración con otras herramientas, etcetéra.
-- [Jest](https://jestjs.io/docs/getting-started). Es casi indispensable utilizar Jest para hacer testing unitario en tu aplicación, es sencillo de usar, robusto y personalizable.
-- [Supertest](https://www.npmjs.com/package/supertest). Herramienta muy sencilla y funcional para probar una API, además es muy usada con Express.
-- [Typedoc](https://typedoc.org/guides/installation/). Si conoces o haz usado JSDoc te será muy fácil usar Typedoc, además de que hace la mayor parte de la documentación basandose en los tipos de Typescript.
-- [Swagger](https://www.npmjs.com/package/swagger-jsdoc). Algunos frameworks lo integran por defecto, es sencillo de usar y para documentar y probar una API es de lo mejor que se puede usar. Además de ser de mucha ayuda para los desarrolladores del lado del cliente.
-- [Bruno](https://www.usebruno.com/downloads). Un REST client es esencial a la hora de desarrollar proyectos como este, a pesar de ya poder probar los endpoints con Swagger sigo usando un REST client por algunas de las herramientas que ofrece como el runner, además todos los endpoints se suben a GitHub hacilitando el trabajo en equipo y sin tener ningún costo.
+## Tools used
+- [Typescript](https://www.typescriptlang.org/docs/). Provides a layer of safety and speed during development by adding types to JavaScript, making it more comfortable to work with.
+- [Express](https://expressjs.com). A simple, useful, and probably the most well-known framework among Node.js developers.
+- [Zod](https://zod.dev). Zod is a comprehensive library for data validation, written in TypeScript, which comes with built-in types.
+- [Drizzle](https://orm.drizzle.team/docs/overview). Drizzle says it best—if you know SQL, you know Drizzle. It's very comfortable to use, offers a CLI, and is fast.
+- [Winston](https://www.npmjs.com/package/winston). Very useful, flexible, customizable, and easy to integrate with other tools.
+- [Jest](https://jestjs.io/docs/getting-started). Almost indispensable for unit testing in your application. It's easy to use, robust, and customizable.
+- [Supertest](https://www.npmjs.com/package/supertest). A very simple and functional tool for testing an API, commonly used with Express.
+- [Typedoc](https://typedoc.org/guides/installation/). If you know or have used JSDoc, you'll find Typedoc very easy to use. It generates most of the documentation based on TypeScript types.
+- [Swagger](https://www.npmjs.com/package/swagger-jsdoc). Some frameworks integrate it by default. It's simple to use and one of the best tools for documenting and testing an API, making it very helpful for client-side developers.
+- [Bruno](https://www.usebruno.com/downloads). A REST client is essential when developing projects like this. Despite being able to test endpoints with Swagger, I still use a REST client for features like the runner. Additionally, all endpoints are uploaded to GitHub, facilitating teamwork without any cost.
 
-## ¿Cómo ejecutar el proyecto?
-### Requisitos previos
+## How to run the project?
+### Prerequisites
 - [Docker](https://docs.docker.com/install/)
 - [Docker compose](https://docs.docker.com/compose/install/)
 - [NodeJS](https://nodejs.org/en/download/package-manager)
 
-*Nota: Hay que tener en cuenta que todo el proyecto fue probado en WSL*
+*Note: Keep in mind that the entire project was tested on WSL.*
 
-### Variables de entorno
-Para configurar las variables de entorno dentro del proyecto existe un script dentro del package.json el cual es `npm run create:envs` a la hora de ejecutarlo lo que hará es copiar el archivo ".env.example" a un archivo ".env". En caso de querer cambiar algo ya es cosa de modificar el ahora existente archivo ".env".
+### Environment variables
+To configure the environment variables within the project, there is a script in the package.json file called `npm run create:envs`. When executed, it will copy the ".env.example" file to a ".env" file. If you need to change something, just modify the newly created ".env" file.
 
-### Ejecución de docker
-Habiendo configurado anteriormente las variables de entorno es hora de ejecutar los contenedores de docker, dentro de la carpeta ".dockers" están los archivos necesarios para ello. Se ejecuta el script de package.json `npm run compose`, este ejecutará el archivo ".dockers/docker-compose.yml" y se empezará a hacer el build del proyecto. En caso de ser necesario también existe un comando `npm run compose:build` el cual hace explicitamente un build del proyecto.
+### Docker execution
+After configuring the environment variables, it's time to run the Docker containers. The necessary files are located in the ".dockers" folder. Run the package.json script `npm run compose`, which will execute the ".dockers/docker-compose.yml" file and start building the project. If necessary, there is also a command `npm run compose:build` that explicitly builds the project.
 
-### Migraciones
-Antes que nada, para que funcionen las migraciones tiene que estar ejecutandose el "docker compose" ya que la base de datos tiene que estar activa.
+### Migrations
+Before anything else, for the migrations to work, the "docker compose" must be running since the database needs to be active.
 
-Las migraciones son hechas con Drizzle, primero se generan los archivos ".sql" y la metadata de las migraciones al hacer un `npm run migration:generate`. Estos schemas SQL se hacen en base a los modelos creados con Drizzle, desde las tablas, la estructura de estas, sus relaciones, indices, todo se hace en automático.
+Migrations are done with Drizzle. First, the ".sql" files and migration metadata are generated by running `npm run migration:generate`. These SQL schemas are based on the models created with Drizzle, including the tables, their structure, relationships, indexes—everything is done automatically.
 
-Una vez con las migraciones generadas se tiene que hacer el push con `npm run migration:push`. De esta forma se aplicarán las migraciones antes generadas.
+Once the migrations are generated, you need to push them with `npm run migration:push`. This will apply the previously generated migrations.
 
-En ocasiones es un poco tedioso el andar ejecutando estos dos comandos por separado, de forma que existe un comando el cual crea las migraciones y después hace el push en uno solo, este comando es `npm run migrate`.
+Sometimes it can be tedious to run these two commands separately, so there’s a command that creates the migrations and then pushes them in one go: `npm run migrate`.
 
 ### Testing
-Una vez todo el proyecto esta en ejecución es hora de ejecutar los test. Estos se ubican en la carpeta "test" y dentro de esta se replica la ruta del archivo testeado, la única diferencia es que lleva un ".test" después del nombre. Dentro del package.json se encuentra el script a ejecutar, en este caso es `npm run test`. Primero pone la variable de entorno "NODE_ENV" con el valor de "test", de esta manera al cargar las variables de entorno en el proyecto se carga el archivo ".env.test", así que si se quiere manejar un valor diferente en las variables de entorno durante los test, se puede hacer.
+Once the entire project is running, it’s time to execute the tests. These are located in the "test" folder, and within it, the path of the tested file is replicated, with the only difference being that it includes ".test" after the name. The script to run the tests can be found in the package.json file, which in this case is `npm run test`. First, it sets the "NODE_ENV" environment variable to "test", so when loading the environment variables in the project, the ".env.test" file is loaded. If you want to handle a different value in the environment variables during the tests, you can do so.
 
-Al ejecutar los test se creará una carpeta "coverage" en la raíz del proyecto, dentro de esta se encuentran dos reportes respecto a los test, el primero es un reporte sobre los test ejecutados llamado "test-report.html", el cual tiene información sobre si las pruebas pasaron o si resultaron en error. El segundo archivo creado es uno llamado "index.html", este tiene toda la información acerca de cuantas lineas de código están testeadas, puedes navegar entre el código para ver que lineas hacen falta por probar, de esa manera hacer test más completos.
+Running the tests will create a "coverage" folder at the root of the project. Inside, there are two reports regarding the tests. The first is a test report called "test-report.html", which contains information on whether the tests passed or failed. The second file created is called "index.html", which contains all the information about how many lines of code are covered by tests. You can navigate through the code to see which lines need more testing, allowing you to write more comprehensive tests.
 
-### Documentación
-La documentación en un proyecto es fundamental para que un proyecto sea mantenible y escalable, en este proyecto se utilizaron dos herramientas para este fin.
+### Documentation
+Documentation is essential to make a project maintainable and scalable. In this project, two tools were used for this purpose.
 
 #### Typedoc
-Fue usado para documentar el código, explicar que sentido tienen las funciones, variables, enums, clases, interfaces, etcetéra. Para ver la documentación del proyecto se ejecuta un script del package.json, el cual es `npm run create:docs`, esto creará una carpeta en la raíz del proyecto llamada "docs", dentro de ella se encuentra el "index.html", el archivo que tendremos que abrir para ver toda la documentación generada.
+It was used to document the code, explain the purpose of functions, variables, enums, classes, interfaces, etc. To view the project's documentation, run a script from the package.json file called `npm run create:docs`. This will create a folder at the root of the project called "docs", where you can find "index.html", the file you need to open to view all the generated documentation.
 
 #### Swagger
-Se utilizó para documentar la REST API, parámetros que acepta, el cuerpo que debe tener la petición, las respuestas de éxito o de error del endpoint, entre otras cosas. Para acceder a la documentación de Swagger de debe acceder a la url de "docs", de forma que si se dejan los parametros del template por defecto sería "http://localhost:8000/docs". Se pueden ver todos los endpoints agrupados por su respectivo "tag", además se puede especificar un schema de seguridad ya sea para el envío de JWT tokens, o algún otro método de seguridad.
+Used to document the REST API, including the parameters it accepts, the request body, success or error responses from the endpoint, and more. To access the Swagger documentation, go to the "docs" URL. If you leave the template parameters as default, it will be "http://localhost:8000/docs". You can see all the endpoints grouped by their respective "tag", and you can specify a security schema, whether for sending JWT tokens or another security method.
 
 ### REST client
-Los endpoints de Bruno estan en la carpeta "endpoints", lo único necesario para utilizarlos es abrir esa carpeta con la aplicación de Bruno. Una vez hecho esto solo se carga el environment necesario y se prueba cada endpoint, o a su vez se puede ejecutar el runner para probar si todo funciona correctamente.
+Bruno's endpoints are in the "endpoints" folder. To use them, just open that folder with the Bruno application. Once done, load the necessary environment and test each endpoint, or you can use the runner to check if everything works correctly.
 
-## Contribuciones
-El proyecto esta abierto a contribuciones, si quieres apoyar con algo eres completamente libre de hacer una pull request, de hecho estaría encantado de recibirla.
+## Contributions
+The project is open to contributions. If you want to contribute something, you are free to make a pull request—I would be happy to receive it.
