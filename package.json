@@ -1,8 +1,8 @@
 {
   "name": "template_typescript_express",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Template for a typescript express project, using hexagonal architecture",
+  "main": "./src/main.ts",
   "type": "module",
   "scripts": {
     "create:envs": "bash ./scripts/create_envs.sh",
