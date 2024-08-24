@@ -4,7 +4,7 @@ import jest from 'jest-mock'
 import { validateData, Type } from 'src/middlewares/validator'
 
 describe('Validate validateData middleware', () => {
-it('should handle non-ZodError exceptions', () => {
+  it('should handle non-ZodError exceptions', () => {
     const req = {
       body: { name: 'John' }
     } as Request
