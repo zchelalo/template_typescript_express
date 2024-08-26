@@ -5,6 +5,8 @@ import { cookieNames } from 'src/config/constants'
 import { durationToMilliseconds } from 'src/utils/time_converter'
 import { tokenExpiration, TokenType } from 'src/utils/jwt'
 
+import { UnauthorizedError } from 'src/helpers/errors/custom_error'
+
 /**
  * AuthController class.
  * 
@@ -29,7 +31,7 @@ export class AuthController {
   /**
    * Handles the request to sign in a user.
    * 
-   * @param {Request} req - The Express request object, containing the sign up data.
+   * @param {Request} req - The Express request object, containing the sign in data.
    * @param {Response} res - The Express response object, used to send the user data.
    * @param {NextFunction} next - The Express next function, used to pass errors to the error handler.
    * @returns {Promise<void>} A promise that resolves to void.
@@ -37,17 +39,17 @@ export class AuthController {
   public signIn = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const user = req.body
-      const userCreated = await this.useCase.signIn(user.email, user.password)
+      const authData = await this.useCase.signIn(user.email, user.password)
 
       // Both cookies are with the same expiration time because if the access token expires, the refresh token will be used to generate a new one. 
-      res.cookie(cookieNames.ACCESS_TOKEN, userCreated.accessToken, {
+      res.cookie(cookieNames.ACCESS_TOKEN, authData.accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'none',
         maxAge: durationToMilliseconds(tokenExpiration[TokenType.REFRESH])
       })
 
-      res.cookie(cookieNames.REFRESH_TOKEN, userCreated.refreshToken, {
+      res.cookie(cookieNames.REFRESH_TOKEN, authData.refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'none',
@@ -55,8 +57,69 @@ export class AuthController {
       })
 
       res.sendSuccess({ status: 200, message: 'success', data: {
-        user: userCreated.user
+        user: authData.user
       }, meta: null })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * Handles the request to sign up a user.
+   * 
+   * @param {Request} req - The Express request object, containing the sign up data.
+   * @param {Response} res - The Express response object, used to send the user data.
+   * @param {NextFunction} next - The Express next function, used to pass errors to the error handler.
+   * @returns {Promise<void>} A promise that resolves to void.
+  */
+  public signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const user = req.body
+      const authData = await this.useCase.signUp(user.name, user.email, user.password)
+
+      // Both cookies are with the same expiration time because if the access token expires, the refresh token will be used to generate a new one. 
+      res.cookie(cookieNames.ACCESS_TOKEN, authData.accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+        maxAge: durationToMilliseconds(tokenExpiration[TokenType.REFRESH])
+      })
+
+      res.cookie(cookieNames.REFRESH_TOKEN, authData.refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+        maxAge: durationToMilliseconds(tokenExpiration[TokenType.REFRESH])
+      })
+
+      res.sendSuccess({ status: 201, message: 'success', data: {
+        user: authData.user
+      }, meta: null })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * Handles the request to sign out a user.
+   * 
+   * @param {Request} req - The Express request object, containing the sign out data in the cookies.
+   * @param {Response} res - The Express response object, used to send the response of the sign out operation.
+   * @param {NextFunction} next - The Express next function, used to pass errors to the error handler.
+   * @returns {Promise<void>} A promise that resolves to void.
+  */
+  public signOut = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.user
+      if (!userId) {
+        throw new UnauthorizedError()
+      }
+      await this.useCase.signOut(userId, req.cookies[cookieNames.REFRESH_TOKEN])
+
+      res.clearCookie(cookieNames.ACCESS_TOKEN)
+      res.clearCookie(cookieNames.REFRESH_TOKEN)
+
+      res.sendSuccess({ status: 200, message: 'success', data: null, meta: null })
     } catch (error) {
       next(error)
     }

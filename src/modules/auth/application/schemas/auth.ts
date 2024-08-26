@@ -29,6 +29,19 @@ export const signUpSchema = z.object({
 })
 
 /**
+ * Sign out schema
+ * 
+ * Represents the validation schema for create a Sign Out object.
+ * 
+ * @param {string} id - The id of the user, must be a valid UUID.
+ * @param {string} refreshToken - The refresh token of the user, must be a string.
+ */
+export const signOutSchema = z.object({
+  userId: z.string().uuid(),
+  refreshToken: z.string()
+})
+
+/**
  * Token schema
  * 
  * Represents the validation schema for create a Token object.
