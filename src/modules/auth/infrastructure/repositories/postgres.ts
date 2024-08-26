@@ -1,4 +1,5 @@
 import { AuthRepository } from '../../domain/repository'
+import { TokenTypeValue, TokenValue } from '../../domain/value'
 
 import { db } from 'src/data/drizzle/config/orm'
 import { token, tokenType } from 'src/data/drizzle/schemas'
@@ -14,10 +15,13 @@ import { NotFoundError } from 'src/helpers/errors/custom_error'
  * @implements {AuthRepository}
 */
 export class PostgresRepository implements AuthRepository {
-  async getTokenByUserIdAndValue(id: string, tokenValue: string): Promise<string> {
+  async getTokenByUserIdAndValue(id: string, tokenValue: string): Promise<TokenValue> {
     const tokenObtained = await db
       .select({
-        tokenValue: token.token
+        id: token.id,
+        token: token.token,
+        userId: token.userId,
+        tokenTypeId: token.tokenTypeId
       })
       .from(token)
       .where(and(
@@ -30,7 +34,7 @@ export class PostgresRepository implements AuthRepository {
       throw new NotFoundError('token')
     }
 
-    return tokenObtained[0].tokenValue
+    return tokenObtained[0]
   }
 
   async saveToken(id: string, tokenValue: string, userId: string, tokenTypeId: string): Promise<void> {
@@ -67,10 +71,11 @@ export class PostgresRepository implements AuthRepository {
       ))
   }
 
-  async getTokenTypeIdByKey(key: string): Promise<string> {
+  async getTokenTypeIdByKey(key: string): Promise<TokenTypeValue> {
     const tokenTypeObtained = await db
       .select({
-        id: tokenType.id
+        id: tokenType.id,
+        key: tokenType.key
       })
       .from(tokenType)
       .where(eq(tokenType.key, key))
@@ -80,6 +85,6 @@ export class PostgresRepository implements AuthRepository {
       throw new NotFoundError('token type')
     }
 
-    return tokenTypeObtained[0].id
+    return tokenTypeObtained[0]
   }
 }

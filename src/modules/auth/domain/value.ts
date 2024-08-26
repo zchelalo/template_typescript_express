@@ -71,7 +71,7 @@ export class TokenValue {
   readonly tokenTypeId: string
 
   /**
-   * Creates a new AuthValue instance.
+   * Creates a new TokenValue instance.
    * @param {string} token - The value of the token.
    * @param {string} userId - The user id of the token.
    * @param {string} tokenTypeId - The token type id of the token.
@@ -81,5 +81,32 @@ export class TokenValue {
     this.token = token
     this.userId = userId
     this.tokenTypeId = tokenTypeId
+  }
+}
+
+/**
+ * TokenTypeValue class.
+ * 
+ * This class represents a value object for a TokenType object.
+ * 
+*/
+export class TokenTypeValue {
+  /**
+   * The id of the token type.
+  */
+  readonly id: string
+
+  /**
+   * The value of the key of the token type.
+  */
+  readonly key: string
+
+  /**
+   * Creates a new TokenTypeValue instance.
+   * @param {string} key - The key of the token type.
+  */
+  constructor(key: string) {
+    this.id = v4()
+    this.key = key
   }
 }

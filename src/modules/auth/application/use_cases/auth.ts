@@ -79,8 +79,8 @@ export class AuthUseCase {
     const accessToken = await createJWT({ sub: userObtained.id }, TokenType.ACCESS)
     const refreshToken = await createJWT({ sub: userObtained.id }, TokenType.REFRESH)
 
-    const tokenTypeId = await this.authRepository.getTokenTypeIdByKey('refresh')
-    const newToken = new TokenValue(refreshToken, userObtained.id, tokenTypeId)
+    const tokenType = await this.authRepository.getTokenTypeIdByKey('refresh')
+    const newToken = new TokenValue(refreshToken, userObtained.id, tokenType.id)
     await this.authRepository.saveToken(newToken.id, newToken.token, newToken.userId, newToken.tokenTypeId)
 
     const authValue = new DTOAuthResponse({
@@ -116,8 +116,8 @@ export class AuthUseCase {
     const accessToken = await createJWT({ sub: userCreated.id }, TokenType.ACCESS)
     const refreshToken = await createJWT({ sub: userCreated.id }, TokenType.REFRESH)
 
-    const tokenTypeId = await this.authRepository.getTokenTypeIdByKey('refresh')
-    const newToken = new TokenValue(refreshToken, userCreated.id, tokenTypeId)
+    const tokenType = await this.authRepository.getTokenTypeIdByKey('refresh')
+    const newToken = new TokenValue(refreshToken, userCreated.id, tokenType.id)
     await this.authRepository.saveToken(newToken.id, newToken.token, newToken.userId, newToken.tokenTypeId)
 
     const authValue = new DTOAuthResponse({

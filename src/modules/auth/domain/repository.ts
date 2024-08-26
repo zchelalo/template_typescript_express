@@ -1,3 +1,5 @@
+import { TokenTypeValue, TokenValue } from './value'
+
 /**
  * AuthRepository interface.
  * 
@@ -11,9 +13,9 @@ export interface AuthRepository {
    * 
    * @param {string} id - The ID of the user.
    * @param {string} tokenValue - The token of the user.
-   * @returns {Promise<string>} A promise that resolves to a string of the token.
+   * @returns {Promise<TokenValue>} A promise that resolves to a TokenValue object.
   */
-  getTokenByUserIdAndValue(id: string, tokenValue: string): Promise<string>
+  getTokenByUserIdAndValue(id: string, tokenValue: string): Promise<TokenValue>
 
   /**
    * Saves a new token.
@@ -39,7 +41,7 @@ export interface AuthRepository {
    * Retrieves a token type ID by the key.
    * 
    * @param {string} key - The key of the token type.
-   * @returns {Promise<string>} A promise that resolves to a string of the token.
+   * @returns {Promise<TokenTypeValue>} A promise that resolves to a TokenTypeValue object.
   */
-  getTokenTypeIdByKey(key: string): Promise<string>
+  getTokenTypeIdByKey(key: string): Promise<TokenTypeValue>
 }
