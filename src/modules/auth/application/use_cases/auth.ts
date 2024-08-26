@@ -1,15 +1,18 @@
 import { AuthRepository } from '../../domain/repository'
 import { UserRepository } from 'src/modules/user/domain/repository'
 import { UserValue } from 'src/modules/user/domain/value'
+import { TokenValue } from '../../domain/value'
 
 import { DTOAuthResponse } from '../dtos/auth_response'
 import { signInSchema, signOutSchema, signUpSchema, tokenSchema } from '../schemas/auth'
 
-import { createJWT, TokenType, verifyJWT } from 'src/utils/jwt'
-import { UnauthorizedError } from 'src/helpers/errors/custom_error'
+import { createJWT, tokenExpiration, TokenType, verifyJWT } from 'src/utils/jwt'
+import { durationToMilliseconds } from 'src/utils/time_converter'
+
+import { InternalServerError, UnauthorizedError } from 'src/helpers/errors/custom_error'
 
 import bcrypt from 'bcrypt'
-import { TokenValue } from '../../domain/value'
+import jwt from 'jsonwebtoken'
 
 /**
  * Create a new Auth Use Case.
@@ -166,21 +169,48 @@ export class AuthUseCase {
    * const accessData = await authUseCase.refreshAccessToken(refreshToken)
    * ```
   */
-  public async refreshAccessToken(refreshToken: string): Promise<{ token: string, userId: string }> {
-    tokenSchema.parse({ token: refreshToken })
+  public async refreshAccessToken(rToken: string): Promise<{ accessToken: string, refreshToken: string | undefined, userId: string }> {
+    tokenSchema.parse({ token: rToken })
 
-    const payload = await verifyJWT(refreshToken, TokenType.REFRESH)
+    const payload = await verifyJWT(rToken, TokenType.REFRESH)
     if (!payload) {
       throw new UnauthorizedError()
     }
 
-    await this.authRepository.getTokenByUserIdAndValue(payload.sub as string, refreshToken)
+    await this.authRepository.getTokenByUserIdAndValue(payload.sub as string, rToken)
 
     const accessToken = await createJWT({ sub: payload.sub }, TokenType.ACCESS)
 
+    let refreshToken = undefined
+    if (this.shouldRefreshTheRefreshToken(payload)) {
+      await this.authRepository.revokeTokenByUserIdAndValue(payload.sub as string, rToken)
+
+      refreshToken = await createJWT({ sub: payload.sub }, TokenType.REFRESH)
+
+      const tokenType = await this.authRepository.getTokenTypeIdByKey('refresh')
+      const newToken = new TokenValue(refreshToken, payload.sub as string, tokenType.id)
+      await this.authRepository.saveToken(newToken.id, newToken.token, newToken.userId, newToken.tokenTypeId)
+    }
+
     return {
-      token: accessToken,
+      accessToken,
+      refreshToken,
       userId: payload.sub as string
     }
+  }
+
+  private shouldRefreshTheRefreshToken(payload: jwt.JwtPayload): boolean {
+    const currentTime = Math.floor(Date.now() / 1000)
+
+    if (!payload.exp) {
+      throw new InternalServerError('jwt expiration time is missing')
+    }
+
+    const expirationTime = payload.exp
+
+    const totalDuration = durationToMilliseconds(tokenExpiration[TokenType.REFRESH])
+    const threshold = totalDuration * 0.25
+
+    return (expirationTime - currentTime) < threshold
   }
 }

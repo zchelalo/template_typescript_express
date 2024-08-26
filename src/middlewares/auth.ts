@@ -28,15 +28,24 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
       }
 
       try {
-        const newAccessToken = await useCase.refreshAccessToken(refreshToken)
-        res.cookie(cookieNames.ACCESS_TOKEN, newAccessToken.token, {
+        const newTokens = await useCase.refreshAccessToken(refreshToken)
+        res.cookie(cookieNames.ACCESS_TOKEN, newTokens.accessToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'none',
           maxAge: durationToMilliseconds(tokenExpiration[TokenType.REFRESH])
         })
 
-        req.user = newAccessToken.userId
+        if (newTokens.refreshToken) {
+          res.cookie(cookieNames.REFRESH_TOKEN, newTokens.refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'none',
+            maxAge: durationToMilliseconds(tokenExpiration[TokenType.REFRESH])
+          })
+        }
+
+        req.user = newTokens.userId
 
         return next()
       } catch (error) {
