@@ -13,25 +13,25 @@ export class UserValue implements UserEntity {
    * The unique identifier of the user.
    * @type {string}
   */
-  id: string
+  readonly id: string
 
   /**
    * The name of the user.
    * @type {string}
   */
-  name: string
+  readonly name: string
 
   /**
    * The email address of the user.
    * @type {string}
   */
-  email: string
+  readonly email: string
 
   /**
    * The password of the user, stored as a hashed string.
    * @type {string}
   */
-  password: string
+  readonly password: string
 
   /**
    * Creates a new UserValue instance.
