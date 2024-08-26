@@ -39,6 +39,12 @@ export class ConflictError extends CustomError {
   }
 }
 
+export class InternalServerError extends CustomError {
+  constructor(message: string) {
+    super(500, `Internal server error: ${message}`) // 500 Internal Server Error
+  }
+}
+
 export class DatabaseError extends CustomError {
   constructor(message: string) {
     super(500, `Database error: ${message}`) // 500 Internal Server Error
