@@ -137,9 +137,6 @@ export class PostgresRepository implements UserRepository {
         password: user.password
       })
 
-    if (userCreated.length === 0) {
-      throw new DatabaseError('user not created')
-    }
     return userCreated[0]
   }
 }
