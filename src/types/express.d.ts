@@ -5,6 +5,7 @@ declare global {
   namespace Express {
     interface Request {
       pagination?: Pagination
+      user?: string
     }
     interface Response {
       sendSuccess(response: SuccessResponse): this
