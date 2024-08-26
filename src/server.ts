@@ -7,6 +7,7 @@ import { logRequestMiddleware } from './middlewares/log_request'
 import { logErrors, unknownErrorHandler, customErrorHandler } from './middlewares/error'
 
 import { router as userRouter } from './modules/user/infrastructure/router'
+import { router as authRouter } from './modules/auth/infrastructure/router'
 
 import { ForbiddenError } from './helpers/errors/custom_error'
 
@@ -33,6 +34,7 @@ app.use(cors({
 }))
 
 app.use('/api', userRouter)
+app.use('/api', authRouter)
 
 app.use('/docs', serve, setup(swaggerSpec))
 
