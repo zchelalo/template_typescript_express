@@ -1,4 +1,3 @@
-import { UserEntity } from '../../domain/entity'
 import { UserRepository } from '../../domain/repository'
 import { UserValue } from '../../domain/value'
 import { DTOUserCreate } from '../dtos/user_create'
@@ -18,7 +17,7 @@ import bcrypt from 'bcrypt'
  * 
  * This class is part of the application layer in the hexagonal architecture and relies on a UserRepository to access and manipulate user data.
  * 
- * The `UserEntity`, `UserValue`, and `DTOUserResponse` are used within these methods and are documented in their respective modules.
+ * The `UserValue`, `DTOUserCreate` and `DTOUserResponse` are used within these methods and are documented in their respective modules.
  * 
  * @example
  * ```ts

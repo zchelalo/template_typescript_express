@@ -1,7 +1,7 @@
 /**
  * Represents a User entity.
  * 
- * This interface defines the structure of a User object in the domain layer.
+ * This interface defines the structure of an User object in the domain layer.
  * It includes basic user information such as `id`, `name`, `email`, and `password`.
  * 
  * @interface UserEntity
