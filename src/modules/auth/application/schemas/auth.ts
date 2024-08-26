@@ -28,6 +28,13 @@ export const signUpSchema = z.object({
   password: z.string().min(8)
 })
 
+/**
+ * Token schema
+ * 
+ * Represents the validation schema for create a Token object.
+ * 
+ * @param {string} token - The token of the user, must be a string.
+ */
 export const tokenSchema = z.object({
   token: z.string()
 })
