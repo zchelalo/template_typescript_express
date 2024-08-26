@@ -6,13 +6,16 @@
   "type": "module",
   "scripts": {
     "create:envs": "bash ./scripts/create_envs.sh",
+    "create:certs": "bash ./scripts/create_certs.sh",
     "create:docs": "typedoc --entryPointStrategy expand ./src --name 'App' --out docs",
 
     "compose": "docker compose -f ./.dockers/docker-compose.yml up",
     "compose:build": "docker compose -f ./.dockers/docker-compose.yml up --build",
+    "compose:down": "docker compose -f ./.dockers/docker-compose.yml down",
 
     "migration:generate": "docker exec -it app npx drizzle-kit generate --config=./src/data/drizzle/config/drizzle_kit.ts",
     "migration:push": "docker exec -it app npx tsx ./src/data/drizzle/config/migrate.ts",
+    "migration:seed": "docker exec -it app npx tsx ./src/data/drizzle/config/seed.ts",
     "migrate": "npm run migration:generate && npm run migration:push",
 
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles || true",
@@ -29,6 +32,7 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.12.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
@@ -43,6 +47,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/pg": "^8.11.6",
     "@types/supertest": "^6.0.2",
     "@types/swagger-jsdoc": "^6.0.4",

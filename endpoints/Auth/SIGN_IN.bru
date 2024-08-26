@@ -1,18 +1,17 @@
 meta {
-  name: CREATE
+  name: SIGN_IN
   type: http
-  seq: 2
+  seq: 1
 }
 
 post {
-  url: {{http}}://{{host}}/api/users
+  url: {{http}}://{{host}}/api/auth/sign-in
   body: json
   auth: none
 }
 
 body:json {
   {
-    "name": "Test",
     "email": "eduardosaavedra687@gmail.com",
     "password": "12345678"
   }

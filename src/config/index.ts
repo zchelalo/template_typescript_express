@@ -16,7 +16,11 @@ const envVars = {
   DB_PORT: Number(process.env.DB_PORT),
   DB_USER: process.env.DB_USER,
   DB_PASS: process.env.DB_PASS,
-  DB_NAME: process.env.DB_NAME
+  DB_NAME: process.env.DB_NAME,
+
+  ACCESS_TOKEN_DURATION_IN_MINUTES: Number(process.env.ACCESS_TOKEN_DURATION_IN_MINUTES),
+  REFRESH_TOKEN_DURATION_IN_DAYS: Number(process.env.REFRESH_TOKEN_DURATION_IN_DAYS),
+  RECOVER_TOKEN_DURATION_IN_MINUTES: Number(process.env.RECOVER_TOKEN_DURATION_IN_MINUTES)
 }
 
 /**
@@ -32,7 +36,11 @@ const config = z.object({
   DB_PORT: z.number().int(),
   DB_USER: z.string(),
   DB_PASS: z.string(),
-  DB_NAME: z.string()
+  DB_NAME: z.string(),
+
+  ACCESS_TOKEN_DURATION_IN_MINUTES: z.number().int(),
+  REFRESH_TOKEN_DURATION_IN_DAYS: z.number().int(),
+  RECOVER_TOKEN_DURATION_IN_MINUTES: z.number().int()
 })
 
 /**

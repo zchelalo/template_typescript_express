@@ -10,6 +10,8 @@ RUN npm install
 COPY ../tsconfig*.json .
 COPY ../nodemon.json .
 COPY ../.env .
+COPY ../.env.test .
+COPY ../certs certs
 COPY ../src src
 
 CMD ["npm", "run", "dev"]

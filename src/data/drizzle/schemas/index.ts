@@ -1,4 +1,17 @@
-import { user } from './user'
+import { user, userRelations } from './user'
 export {
-  user
+  user,
+  userRelations
+}
+
+import { token, tokenRelations } from './token'
+export {
+  token,
+  tokenRelations
+}
+
+import { tokenType, tokenTypeRelations } from './tokenType'
+export {
+  tokenType,
+  tokenTypeRelations
 }
