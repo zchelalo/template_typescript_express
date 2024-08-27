@@ -6,7 +6,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // Lista de directorios que contienen archivos YAML
 const directories = [
-  'user'
+  'user',
+  'auth'
 ]
 
 // Crear una lista de rutas de archivos YAML
