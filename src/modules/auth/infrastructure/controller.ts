@@ -75,7 +75,7 @@ export class AuthController {
   public signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const user = req.body
-      const authData = await this.useCase.signUp(user.name, user.email, user.password)
+      const authData = await this.useCase.signUp(user)
 
       // Both cookies are with the same expiration time because if the access token expires, the refresh token will be used to generate a new one. 
       res.cookie(cookieNames.ACCESS_TOKEN, authData.accessToken, {

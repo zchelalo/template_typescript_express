@@ -4,7 +4,9 @@ import { UserValue } from 'src/modules/user/domain/value'
 import { TokenValue } from '../../domain/value'
 
 import { DTOAuthResponse } from '../dtos/auth_response'
-import { signInSchema, signOutSchema, signUpSchema, tokenSchema } from '../schemas/auth'
+import { DTOUserCreate } from 'src/modules/user/application/dtos/user_create'
+import { signInSchema, signOutSchema, tokenSchema } from '../schemas/auth'
+import { createUserSchema } from 'src/modules/user/application/schemas/user'
 
 import { createJWT, tokenExpiration, TokenType, verifyJWT } from 'src/utils/jwt'
 import { durationToMilliseconds } from 'src/utils/time_converter'
@@ -110,10 +112,10 @@ export class AuthUseCase {
    * const authData = await authUseCase.signUp(name, email, password)
    * ```
   */
-  public async signUp(name: string, email: string, password: string): Promise<DTOAuthResponse> {
-    signUpSchema.parse({ name, email, password })
+  public async signUp(user: DTOUserCreate): Promise<DTOAuthResponse> {
+    createUserSchema.parse(user)
 
-    const newUser = new UserValue(name, email, password)
+    const newUser = new UserValue(user.name, user.email, user.password)
     const userCreated = await this.userRepository.createUser(newUser)
 
     const accessToken = await createJWT({ sub: userCreated.id }, TokenType.ACCESS)
