@@ -32,10 +32,6 @@ app.use(cors({
   },
   credentials: true
 }))
-// app.use(cors({
-//   origin: '*',
-//   credentials: true
-// }))
 
 app.use('/api', userRouter)
 app.use('/api', authRouter)
