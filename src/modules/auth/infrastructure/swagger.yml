@@ -3,7 +3,7 @@ tags:
     description: Endpoints for user authentication
 
 paths:
-  /sign-in:
+  /auth/sign-in:
     post:
       summary: Sign in a user
       tags:
@@ -40,7 +40,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseNotFound'
 
-  /sign-up:
+  /auth/sign-up:
     post:
       summary: Create a user account
       tags:
@@ -71,7 +71,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseConflict'
 
-  /sign-out:
+  /auth/sign-out:
     post:
       summary: Sign out a user
       tags:
