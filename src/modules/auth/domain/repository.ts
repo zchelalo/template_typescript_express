@@ -20,13 +20,10 @@ export interface AuthRepository {
   /**
    * Saves a new token.
    * 
-   * @param {string} id - The ID of the token.
-   * @param {string} tokenValue - The token of the user.
-   * @param {string} userId - The ID of the user.
-   * @param {string} tokenTypeId - The type of the token.
+   * @param {TokenValue} tokenValue - The token value to save.
    * @returns {Promise<void>} A promise that resolves to void.
   */
-  saveToken(id: string, tokenValue: string, userId: string, tokenTypeId: string): Promise<void>
+  saveToken(tokenValue: TokenValue): Promise<void>
 
   /**
    * Revokes a token by the User ID and the token value.
