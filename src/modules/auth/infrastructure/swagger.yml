@@ -1,0 +1,325 @@
+tags:
+  - name: Auth
+    description: Endpoints for user authentication
+
+paths:
+  /sign-in:
+    post:
+      summary: Sign in a user
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestSignInObject'
+      responses:
+        '200':
+          description: The user was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSignInUpObject'
+        '400':
+          description: A validation error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseBadRequest'
+        '401':
+          description: Unauthorized, invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUnauthorized'
+        '404':
+          description: The user was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseNotFound'
+
+  /sign-up:
+    post:
+      summary: Create a user account
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestSignUpObject'
+      responses:
+        '201':
+          description: The user was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSignInUpObject'
+        '400':
+          description: A validation error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseBadRequest'
+        '409':
+          description: The email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseConflict'
+
+  /sign-out:
+    post:
+      summary: Sign out a user
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: The user was signed out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSignOutObject'
+        '401':
+          description: The user is not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUnauthorized'
+        '404':
+          description: The token of the user was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseNotFound'
+
+components:
+  # securitySchemes:
+  #   bearerAuth:
+  #     type: http
+  #     scheme: bearer
+  #     bearerFormat: JWT
+  #     description: JWT authentication
+
+  schemas:
+    ResponseSignInUpObject:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Response message
+        data:
+          type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+              description: User data
+          description: Response data
+        meta:
+          type: object
+          description: Metadata for the response
+      required:
+        - status
+        - message
+      example: {
+        status: 200,
+        message: 'success',
+        data: {
+          user: {
+            id: '123e4567-e89b-12d3-a456-426614174000',
+            name: 'John Doe',
+            email: 'johndoe@email.com'
+          }
+        },
+        meta: null
+      }
+
+    ResponseSignOutObject:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Response message
+        data:
+          type: object
+          description: Response data
+        meta:
+          type: object
+          description: Metadata for the response
+      required:
+        - status
+        - message
+      example: {
+        status: 200,
+        message: 'success',
+        data: null,
+        meta: null
+      }
+
+    ResponseUnauthorized:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Response message
+        details:
+          type: object
+          description: Details of the response
+      required:
+        - status
+        - message
+      example: {
+        status: 401,
+        message: 'unauthorized',
+        details: null
+      }
+
+    ResponseNotFound:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Response message
+        details:
+          type: object
+          description: Details of the response
+      required:
+        - status
+        - message
+      example: {
+        status: 404,
+        message: 'resource not found',
+        details: null
+      }
+
+    ResponseConflict:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Response message
+        details:
+          type: object
+          description: Details of the response
+      required:
+        - status
+        - message
+      example: {
+        status: 409,
+        message: 'Conflict: email already exists',
+        details: null
+      }
+
+    ResponseBadRequest:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Response message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Validation error message
+          description: List of validation error messages
+      required:
+        - status
+        - message
+      example: {
+        status: 400,
+        message: 'Bad request: validation error',
+        details: [
+          {
+            message: 'email is not valid'
+          },
+          {
+            message: 'password must be at least 8 characters'
+          }
+        ]
+      }
+
+    RequestSignUpObject:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the user
+        email:
+          type: string
+          description: Email of the user
+        password:
+          type: string
+          description: Password of the user (must be at least 8 characters)
+      required:
+        - name
+        - email
+        - password
+      example: {
+        name: 'John Doe',
+        email: 'johndoe@email.com',
+        password: '12345678'
+      }
+
+    RequestSignInObject:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email of the user
+        password:
+          type: string
+          description: Password of the user (must be at least 8 characters)
+      required:
+        - email
+        - password
+      example: {
+        email: 'johndoe@email.com',
+        password: '12345678'
+      }
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user (UUID)
+          format: uuid
+        name:
+          type: string
+          description: Name of the user
+        email:
+          type: string
+          description: Email of the user
+      required:
+        - id
+        - name
+        - email
+      example: {
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        name: 'John Doe',
+        email: 'johndoe@email.com'
+      }
