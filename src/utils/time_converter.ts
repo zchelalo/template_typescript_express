@@ -6,6 +6,11 @@ import { InternalServerError } from 'src/helpers/errors/custom_error'
  * @param {string} duration - Duration string
  * @returns {number} - Duration in milliseconds
  * @throws {InternalServerError} - If the duration format is invalid or the time unit is unknown
+ * @example
+ * ```ts
+ * const duration = '15m'
+ * const milliseconds = durationToMilliseconds(duration)
+ * ```
  */
 export const durationToMilliseconds = (duration: string): number => {
   const match = duration.match(/^(\d+)([mhd])$/)

@@ -75,6 +75,11 @@ export const tokenExpiration = {
  * @param {jwt.JwtPayload} payload - Payload for the JWT token
  * @param {TokenType} type - Type of the token
  * @returns {Promise<string>} The JWT token
+ * @example
+ * ```ts
+ * const payload = { sub: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ZDgwNzQwNi1hNTQzLTRlMWYtYjAxOS1jOGIwNWQ1OGM1OWIiLCJpYXQiOjE3MjQ2MzExMjksImV4cCI6MTcyNTkyNzEyOX0.l7WXdoTopPRqeK-TNIgJtCoR863Yot5cJC-jV3v6DwJtrvH9wjqGFPHpgo00z4d9jCbMTEBnUfv2NkFCk4ecPt4YTledruAuxQoULk3NqoaXhn4wlKhQj7w14ngldir_pud4SxXJnfaw_zd1xg6Gd7rDH-LAWUYaNyvs8qt2CRra7pnBA6tBUvrO58HYReJRQU-GQP9PWRmRC4G8H3tpnGEybn4NcNCn-rO-PIgABZ1I3Len1y8ibKMrz53Rc1PTUTInD96RORM5zp5c06qkyUjW9AThFQwmYP9Yzo4z3fBsuvqQFha31lWoqzP5LNk2iOHECuequuLPThtNWdsRyw' }
+ * const token = await createJWT(payload, TokenType.ACCESS)
+ * ```
  */
 export const createJWT = async (payload: jwt.JwtPayload, type: TokenType): Promise<string> => {
   const certPath = tokenPaths[type][certType.PRIVATE]
@@ -93,6 +98,11 @@ export const createJWT = async (payload: jwt.JwtPayload, type: TokenType): Promi
  * @param {string} token - The JWT token
  * @param {TokenType} type - Type of the token
  * @returns {Promise<jwt.JwtPayload>} The payload of the JWT token
+ * @example
+ * ```ts
+ * const token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ZDgwNzQwNi1hNTQzLTRlMWYtYjAxOS1jOGIwNWQ1OGM1OWIiLCJpYXQiOjE3MjQ2MzExMjksImV4cCI6MTcyNTkyNzEyOX0.l7WXdoTopPRqeK-TNIgJtCoR863Yot5cJC-jV3v6DwJtrvH9wjqGFPHpgo00z4d9jCbMTEBnUfv2NkFCk4ecPt4YTledruAuxQoULk3NqoaXhn4wlKhQj7w14ngldir_pud4SxXJnfaw_zd1xg6Gd7rDH-LAWUYaNyvs8qt2CRra7pnBA6tBUvrO58HYReJRQU-GQP9PWRmRC4G8H3tpnGEybn4NcNCn-rO-PIgABZ1I3Len1y8ibKMrz53Rc1PTUTInD96RORM5zp5c06qkyUjW9AThFQwmYP9Yzo4z3fBsuvqQFha31lWoqzP5LNk2iOHECuequuLPThtNWdsRyw'
+ * const payload = await verifyJWT(token, TokenType.ACCESS)
+ * ```
  */
 export const verifyJWT = async (token: string, type: TokenType): Promise<jwt.JwtPayload> => {
   const certPath = tokenPaths[type][certType.PUBLIC]
