@@ -1,7 +1,16 @@
+import { InternalServerError } from 'src/helpers/errors/custom_error'
+
+/**
+ * Transform a duration string (in the format of 'Xm', 'Xh' or 'Xd') to milliseconds
+ * 
+ * @param {string} duration - Duration string
+ * @returns {number} - Duration in milliseconds
+ * @throws {InternalServerError} - If the duration format is invalid or the time unit is unknown
+ */
 export const durationToMilliseconds = (duration: string): number => {
   const match = duration.match(/^(\d+)([mhd])$/)
   if (!match) {
-    throw new Error('Invalid duration format')
+    throw new InternalServerError('invalid duration format')
   }
   const value = parseInt(match[1], 10)
   const unit = match[2]
@@ -14,6 +23,6 @@ export const durationToMilliseconds = (duration: string): number => {
     case 'd': // días
       return value * 24 * 60 * 60 * 1000
     default:
-      throw new Error('Unknown time unit')
+      throw new InternalServerError('unknown time unit')
   }
 }
