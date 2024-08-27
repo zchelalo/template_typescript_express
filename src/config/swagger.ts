@@ -33,4 +33,7 @@ const options: swaggerJSDoc.Options = {
   apis
 }
 
+/**
+ * Swagger specification. This is used to generate the API documentation for the app.
+ */
 export const swaggerSpec = swaggerJSDoc(options)
