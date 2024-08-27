@@ -86,7 +86,7 @@ export class AuthUseCase {
 
     const tokenType = await this.authRepository.getTokenTypeIdByKey('refresh')
     const newToken = new TokenValue(refreshToken, userObtained.id, tokenType.id)
-    await this.authRepository.saveToken(newToken.id, newToken.token, newToken.userId, newToken.tokenTypeId)
+    await this.authRepository.saveToken(newToken)
 
     const authValue = new DTOAuthResponse({
       accessToken,
@@ -123,7 +123,7 @@ export class AuthUseCase {
 
     const tokenType = await this.authRepository.getTokenTypeIdByKey('refresh')
     const newToken = new TokenValue(refreshToken, userCreated.id, tokenType.id)
-    await this.authRepository.saveToken(newToken.id, newToken.token, newToken.userId, newToken.tokenTypeId)
+    await this.authRepository.saveToken(newToken)
 
     const authValue = new DTOAuthResponse({
       accessToken,
@@ -191,7 +191,7 @@ export class AuthUseCase {
 
       const tokenType = await this.authRepository.getTokenTypeIdByKey('refresh')
       const newToken = new TokenValue(refreshToken, payload.sub as string, tokenType.id)
-      await this.authRepository.saveToken(newToken.id, newToken.token, newToken.userId, newToken.tokenTypeId)
+      await this.authRepository.saveToken(newToken)
     }
 
     return {
