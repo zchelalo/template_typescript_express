@@ -1,5 +1,8 @@
 import { createLogger, format, transports } from 'winston'
 
+/**
+ * Logger configuration with Winston.
+*/
 export const logger = createLogger({
   level: 'info', // Nivel de logging
   format: format.combine(
