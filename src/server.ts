@@ -21,7 +21,7 @@ app.use(cookieParser())
 app.use(logRequestMiddleware)
 app.use(responseMiddleware)
 
-const whitelist = ['http://localhost:5173']
+const whitelist = ['http://localhost:5173', 'http://localhost:8000']
 app.use(cors({
   origin: (origin, callback) => {
     if (whitelist.includes(origin as string) || !origin) {
@@ -32,6 +32,10 @@ app.use(cors({
   },
   credentials: true
 }))
+// app.use(cors({
+//   origin: '*',
+//   credentials: true
+// }))
 
 app.use('/api', userRouter)
 app.use('/api', authRouter)
