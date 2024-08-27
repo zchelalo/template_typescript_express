@@ -3,6 +3,10 @@
  * 
  * @class CustomError
  * @extends {Error}
+ * @example
+ * ```ts
+ * throw new CustomError(500, 'internal server error')
+ * ```
 */
 export class CustomError extends Error {
   /**
@@ -28,6 +32,10 @@ export class CustomError extends Error {
  * Error class BadRequestError that extend the CustomError class.
  * 
  * @extends {CustomError}
+ * @example
+ * ```ts
+ * throw new BadRequestError('invalid email')
+ * ```
 */
 export class BadRequestError extends CustomError {
 
@@ -45,6 +53,10 @@ export class BadRequestError extends CustomError {
  * Error class UnauthorizedError that extend the CustomError class.
  * 
  * @extends {CustomError}
+ * @example
+ * ```ts
+ * throw new UnauthorizedError()
+ * ```
 */
 export class UnauthorizedError extends CustomError {
 
@@ -60,6 +72,10 @@ export class UnauthorizedError extends CustomError {
  * Error class ForbiddenError that extend the CustomError class.
  * 
  * @extends {CustomError}
+ * @example
+ * ```ts
+ * throw new ForbiddenError()
+ * ```
 */
 export class ForbiddenError extends CustomError {
 
@@ -75,6 +91,10 @@ export class ForbiddenError extends CustomError {
  * Error class NotFoundError that extend the CustomError class.
  * 
  * @extends {CustomError}
+ * @example
+ * ```ts
+ * throw new NotFoundError('user')
+ * ```
 */
 export class NotFoundError extends CustomError {
 
@@ -92,6 +112,10 @@ export class NotFoundError extends CustomError {
  * Error class ConflictError that extend the CustomError class.
  * 
  * @extends {CustomError}
+ * @example
+ * ```ts
+ * throw new ConflictError('email already exists')
+ * ```
 */
 export class ConflictError extends CustomError {
 
@@ -109,6 +133,10 @@ export class ConflictError extends CustomError {
  * Error class InternalServerError that extend the CustomError class.
  * 
  * @extends {CustomError}
+ * @example
+ * ```ts
+ * throw new InternalServerError('database error')
+ * ```
 */
 export class InternalServerError extends CustomError {
 
@@ -126,6 +154,10 @@ export class InternalServerError extends CustomError {
  * Error class DatabaseError that extend the CustomError class.
  * 
  * @extends {CustomError}
+ * @example
+ * ```ts
+ * throw new DatabaseError('connection failed')
+ * ```
 */
 export class DatabaseError extends CustomError {
 
