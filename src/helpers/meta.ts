@@ -20,6 +20,10 @@ type NewMeta = {
  * @property {number} perPage - The number of items per page.
  * @property {number} pageCount - The total number of pages.
  * @property {number} totalCount - The total number of items.
+ * @example
+ * ```ts
+ * const meta = new Meta({ page: 1, perPage: 10, total: 100, pagLimitDef: 10 })
+ * ```
 */
 export class Meta {
   /**
