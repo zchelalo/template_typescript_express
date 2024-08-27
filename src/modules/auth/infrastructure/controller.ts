@@ -11,6 +11,14 @@ import { UnauthorizedError } from 'src/helpers/errors/custom_error'
  * AuthController class.
  * 
  * This class handles HTTP requests related to auth operations, such as signing in, signing up and signing out.
+ * 
+ * @example
+ * ```ts
+ * const authRepository = new AuthPostgresRepository()
+ * const userRepository = new UserPostgresRepository()
+ * const authUseCase = new AuthUseCase(authRepository, userRepository)
+ * const controller = new AuthController(authUseCase)
+ * ```
 */
 export class AuthController {
   /**
@@ -35,6 +43,11 @@ export class AuthController {
    * @param {Response} res - The Express response object, used to send the user data.
    * @param {NextFunction} next - The Express next function, used to pass errors to the error handler.
    * @returns {Promise<void>} A promise that resolves to void.
+   * @example
+   * ```ts
+   * const router = Router()
+   * router.post('/sign-in', controller.signIn)
+   * ```
   */
   public signIn = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -71,6 +84,11 @@ export class AuthController {
    * @param {Response} res - The Express response object, used to send the user data.
    * @param {NextFunction} next - The Express next function, used to pass errors to the error handler.
    * @returns {Promise<void>} A promise that resolves to void.
+   * @example
+   * ```ts
+   * const router = Router()
+   * router.post('/sign-up', controller.signUp)
+   * ```
   */
   public signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -107,6 +125,11 @@ export class AuthController {
    * @param {Response} res - The Express response object, used to send the response of the sign out operation.
    * @param {NextFunction} next - The Express next function, used to pass errors to the error handler.
    * @returns {Promise<void>} A promise that resolves to void.
+   * @example
+   * ```ts
+   * const router = Router()
+   * router.post('/sign-out', controller.signOut)
+   * ```
   */
   public signOut = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
