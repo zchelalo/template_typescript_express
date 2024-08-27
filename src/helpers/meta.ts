@@ -45,7 +45,7 @@ export class Meta {
   /**
    * The constructor of the Meta class.
    * 
-   * @param {NewMeta} - The new meta object.
+   * @param {NewMeta} newMeta - The new meta object.
   */
   constructor({ page, perPage, total, pagLimitDef }: NewMeta) {
     this.page = page
