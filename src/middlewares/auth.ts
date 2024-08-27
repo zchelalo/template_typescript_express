@@ -13,7 +13,20 @@ const authRepository = new AuthPostgresRepository()
 const userRepository = new UserPostgresRepository()
 const useCase = new AuthUseCase(authRepository, userRepository)
 
-export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+  /**
+   * If the request contains an access token, it verifies the token and sets the user id in the request object. If the token is expired, it tries to refresh it using the refresh token. If the refresh token is missing, it sends an error response. If the refresh token is invalid, it sends an error response. If the access token is invalid, it sends an error response. If an error occurs, it passes the error to the error handler. This middleware must be used before any other middleware that requires authentication.
+   * 
+   * @param {Request} req - The Express request object, containing the access token and the refresh token.
+   * @param {Response} res - The Express response object, used to send an error response.
+   * @param {NextFunction} next - The Express next function, used to pass the error to the error handler if an error occurs or to pass the control to the next middleware.
+   * @returns {Promise<void>} A promise that resolves to void.
+   * @example
+   * ```ts
+   * const router = Router()
+   * router.get('/protected', authMiddleware, controller.protected)
+   * ```
+  */
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const token = req.cookies[cookieNames.ACCESS_TOKEN]
 
   try {
@@ -24,7 +37,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     if (error instanceof jwt.TokenExpiredError) {
       const refreshToken = req.cookies[cookieNames.REFRESH_TOKEN]
       if (!refreshToken) {
-        return res.sendError({ status: 401, message: 'unauthorized', details: { message: 'refresh token is missing' } })
+        res.sendError({ status: 401, message: 'unauthorized', details: { message: 'refresh token is missing' } })
+        return 
       }
 
       try {
@@ -47,14 +61,17 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
         req.user = newTokens.userId
 
-        return next()
+        next()
+        return
       } catch (error) {
-        return next(error)
+        next(error)
+        return
       }
     }
 
     if (error instanceof jwt.JsonWebTokenError) {
-      return res.sendError({ status: 401, message: 'unauthorized', details: { message: error.message } })
+      res.sendError({ status: 401, message: 'unauthorized', details: { message: error.message } })
+      return
     }
 
     next(error)
